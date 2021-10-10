@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    active: dev
+server:
+  address: localhost
+  port: 8081
