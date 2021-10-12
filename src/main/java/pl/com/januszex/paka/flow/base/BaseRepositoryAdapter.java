@@ -30,4 +30,9 @@ public abstract class BaseRepositoryAdapter<T> implements BaseRepositoryPort<T> 
     public void delete(T entity) {
         repository.delete(entity);
     }
+
+    @Override
+    public T add(T entity) {
+        return repository.saveAndFlush(entity);
+    }
 }

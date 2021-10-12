@@ -8,6 +8,8 @@ public interface BaseRepositoryPort<T> {
 
     Collection<T> getAll();
 
+    T add(T entity);
+
     T update(T entity);
 
     void delete(T entity);
