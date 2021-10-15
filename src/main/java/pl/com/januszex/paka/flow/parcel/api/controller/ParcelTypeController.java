@@ -6,7 +6,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeChangeActivatedRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeRequest;
+import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeAssignedParcelCountResponse;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeResponse;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
 import pl.com.januszex.paka.flow.parcel.domain.ParcelType;
@@ -24,11 +26,11 @@ public class ParcelTypeController {
     private final ParcelTypeServicePort parcelTypeService;
 
     @PostMapping
-    public ResponseEntity<ParcelType> add(@RequestBody @Valid ParcelTypeRequest request) {
+    public ResponseEntity<ParcelTypeResponse> add(@RequestBody @Valid ParcelTypeRequest request) {
         ParcelType parcelType = parcelTypeService.add(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcelType.getId()).toUri();
-        return ResponseEntity.created(location).body(parcelType);
+        return ResponseEntity.created(location).body(ParcelTypeResponse.of(parcelType));
     }
 
     @PutMapping(path = {"/{id}"})
@@ -54,5 +56,18 @@ public class ParcelTypeController {
     public ResponseEntity<Object> delete(@PathVariable long id) {
         parcelTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = {"/{id}/state"})
+    public ResponseEntity<Object> changeActiveChange(@PathVariable long id,
+                                                     @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
+        parcelTypeService.changeActiveState(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = {"/{id}/parcel-count"})
+    public ResponseEntity<ParcelTypeAssignedParcelCountResponse> getAssignedParcelCount(@PathVariable long id) {
+        return new ResponseEntity<>(new ParcelTypeAssignedParcelCountResponse(parcelTypeService.getAssignedParcelCount(id)),
+                HttpStatus.OK);
     }
 }

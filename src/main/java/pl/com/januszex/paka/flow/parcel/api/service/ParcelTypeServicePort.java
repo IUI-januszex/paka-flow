@@ -1,5 +1,6 @@
 package pl.com.januszex.paka.flow.parcel.api.service;
 
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeChangeActivatedRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeRequest;
 import pl.com.januszex.paka.flow.parcel.domain.ParcelType;
 
@@ -15,4 +16,8 @@ public interface ParcelTypeServicePort {
     ParcelType getById(long id);
 
     void deleteById(long id);
+
+    void changeActiveState(long id, ParcelTypeChangeActivatedRequest request);
+
+    int getAssignedParcelCount(long id);
 }
