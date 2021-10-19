@@ -22,7 +22,7 @@ public class ParcelType {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String description;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
+    @Column(nullable = false)
     private BigDecimal price;
 
     @Column(nullable = false, name = "isActive")
