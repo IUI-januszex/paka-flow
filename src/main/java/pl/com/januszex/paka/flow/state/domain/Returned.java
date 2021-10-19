@@ -1,6 +1,6 @@
 package pl.com.januszex.paka.flow.state.domain;
 
-public class Returned extends ParcelState {
+class Returned extends ParcelState {
     @Override
     public ParcelStateType getType() {
         return ParcelStateType.RETURNED;
