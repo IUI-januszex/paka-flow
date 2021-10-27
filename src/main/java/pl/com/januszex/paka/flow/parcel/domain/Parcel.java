@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.parcel.domain;
 
 import lombok.Data;
 import pl.com.januszex.paka.flow.address.domain.Address;
+import pl.com.januszex.paka.flow.delivery.domain.DeliveryAttempt;
 import pl.com.januszex.paka.flow.state.domain.ParcelState;
 
 import javax.persistence.*;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 import static javax.persistence.FetchType.LAZY;
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -65,6 +67,9 @@ public class Parcel {
 
     @OneToMany(fetch = LAZY, mappedBy = "parcel", cascade = ALL)
     private List<ParcelState> states;
+
+    @OneToMany(fetch = EAGER, mappedBy = "parcel", cascade = ALL)
+    private List<DeliveryAttempt> deliveryAttempts;
 
     public ParcelState getCurrentParcelState() {
         return states.stream().filter(ParcelState::isCurrent).findFirst().orElseThrow(AssertionError::new);
