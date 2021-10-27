@@ -71,7 +71,4 @@ public class Parcel {
     @OneToMany(fetch = EAGER, mappedBy = "parcel", cascade = ALL)
     private List<DeliveryAttempt> deliveryAttempts;
 
-    public ParcelState getCurrentParcelState() {
-        return states.stream().filter(ParcelState::isCurrent).findFirst().orElseThrow(AssertionError::new);
-    }
 }
