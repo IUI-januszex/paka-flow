@@ -49,7 +49,7 @@ public class Parcel {
     private boolean markedToReturn = false;
 
     @Column(nullable = false)
-    private long senderId;
+    private String senderId;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String receiverDetails;
