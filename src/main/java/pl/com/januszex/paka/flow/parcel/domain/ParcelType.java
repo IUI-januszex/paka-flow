@@ -4,7 +4,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.Set;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -29,5 +29,5 @@ public class ParcelType {
     private boolean active;
 
     @OneToMany(mappedBy = "parcelType", fetch = LAZY)
-    private Set<Parcel> parcels;
+    private List<Parcel> parcels;
 }

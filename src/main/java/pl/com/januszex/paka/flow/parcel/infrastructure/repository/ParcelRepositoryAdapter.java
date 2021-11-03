@@ -25,7 +25,7 @@ class ParcelRepositoryAdapter extends BaseRepositoryAdapter<Parcel> implements P
     }
 
     @Override
-    public Collection<Parcel> findObservedParcel(long userId) {
+    public Collection<Parcel> findObservedParcel(String userId) {
         return parcelJpaRepository.findAllByObserverIdsContains(userId);
     }
 }

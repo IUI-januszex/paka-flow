@@ -11,8 +11,8 @@ import javax.persistence.Entity;
 @Data
 public class AtSender extends ParcelState {
 
-    private WarehouseType assignedWarehouseType;
-    private Long assignedWarehouseId;
+    private WarehouseType warehouseType;
+    private Long warehouseId;
 
     @Override
     public ParcelStateType getType() {

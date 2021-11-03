@@ -9,7 +9,7 @@ import java.util.Collection;
 
 public interface ParcelJpaRepository extends JpaRepository<Parcel, Long> {
 
-    Collection<Parcel> findAllByObserverIdsContains(long userId);
+    Collection<Parcel> findAllByObserverIdsContains(String userId);
 
     @Query(value = "SELECT * FROM PARCEL p WHERE p.ID IN " +
             "(SELECT ps.PARCEL_ID FROM PARCEL_STATE ps " +

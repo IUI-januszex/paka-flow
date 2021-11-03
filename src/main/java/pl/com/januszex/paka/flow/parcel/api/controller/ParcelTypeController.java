@@ -33,7 +33,7 @@ public class ParcelTypeController {
         return ResponseEntity.created(location).body(ParcelTypeResponse.of(parcelType));
     }
 
-    @PutMapping(path = {"/{id}"})
+    @PutMapping(path = "/{id}")
     public ResponseEntity<Object> update(@PathVariable long id, @RequestBody @Valid ParcelTypeRequest request) {
         parcelTypeService.update(id, request);
         return ResponseEntity.noContent().build();
@@ -59,20 +59,20 @@ public class ParcelTypeController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping(path = {"/{id}"})
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Object> delete(@PathVariable long id) {
         parcelTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping(path = {"/{id}/state"})
+    @PutMapping(path = "/{id}/state")
     public ResponseEntity<Object> changeActiveChange(@PathVariable long id,
                                                      @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
         parcelTypeService.changeActiveState(id, request);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(path = {"/{id}/parcel-count"})
+    @GetMapping(path = "/{id}/parcel-count")
     public ResponseEntity<ParcelTypeAssignedParcelCountResponse> getAssignedParcelCount(@PathVariable long id) {
         return new ResponseEntity<>(new ParcelTypeAssignedParcelCountResponse(parcelTypeService.getAssignedParcelCount(id)),
                 HttpStatus.OK);

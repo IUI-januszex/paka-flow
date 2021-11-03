@@ -35,7 +35,7 @@ class ParcelAtSenderManager implements ParcelStateManager {
     public AddressDto getDestinationAddress(ParcelState parcelState) {
         AtSender parcelAtSender = cast(parcelState);
         return warehouseDao
-                .getById(parcelAtSender.getAssignedWarehouseId(), parcelAtSender.getAssignedWarehouseType())
+                .getById(parcelAtSender.getWarehouseId(), parcelAtSender.getWarehouseType())
                 .getAddress();
     }
 

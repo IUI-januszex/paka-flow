@@ -42,7 +42,10 @@ public class ParcelStateFactory {
                 parcelState = assignedToCourier;
                 break;
             case AT_SENDER:
-                parcelState = new AtSender();
+                AtSender atSender = new AtSender();
+                atSender.setWarehouseId(request.getWarehouseId());
+                atSender.setWarehouseType(request.getWarehouseType());
+                parcelState = atSender;
                 break;
             case ASSIGNED_TO_WAREHOUSE:
                 AssignedToWarehouse assignedToWarehouse = new AssignedToWarehouse();

@@ -8,6 +8,7 @@ import pl.com.januszex.paka.flow.state.domain.ParcelState;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
@@ -72,8 +73,8 @@ public class Parcel {
     private Address senderAddress;
 
     @OneToMany(fetch = LAZY, mappedBy = "parcel", cascade = ALL)
-    private Set<ParcelState> states;
+    private List<ParcelState> states;
 
     @OneToMany(fetch = EAGER, mappedBy = "parcel", cascade = ALL)
-    private Set<DeliveryAttempt> deliveryAttempts;
+    private List<DeliveryAttempt> deliveryAttempts;
 }

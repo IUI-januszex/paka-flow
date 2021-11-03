@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.security.SecureRandom;
 import java.sql.SQLException;
 
 @Configuration
@@ -28,6 +29,11 @@ public class BeanConfiguration {
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+    @Bean
+    public SecureRandom secureRandom() {
+        return new SecureRandom();
     }
 
 

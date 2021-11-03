@@ -2,11 +2,11 @@ package pl.com.januszex.paka.flow.parcel.api.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 public class ParcelTypeChangeActivatedRequest {
-    private boolean active;
+    boolean active;
 
     @JsonCreator
     public ParcelTypeChangeActivatedRequest(@JsonProperty(required = true, value = "isActive") boolean active) {

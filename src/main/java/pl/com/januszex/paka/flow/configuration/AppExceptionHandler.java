@@ -49,6 +49,12 @@ public class AppExceptionHandler extends DefaultHandlerExceptionResolver {
     @ExceptionHandler(BusinessLogicException.class)
     public ResponseEntity<ErrorResponse> businessLogicExceptionHandler(BusinessLogicException ex) {
         ErrorResponse errors = new ErrorResponse(LocalDateTime.now(), ex.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> illegalArgumentException(IllegalArgumentException ex) {
+        ErrorResponse errors = new ErrorResponse(LocalDateTime.now(), ex.getMessage());
         log.error(ex.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }

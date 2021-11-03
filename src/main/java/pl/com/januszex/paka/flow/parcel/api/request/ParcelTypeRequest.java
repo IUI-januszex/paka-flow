@@ -1,22 +1,22 @@
 package pl.com.januszex.paka.flow.parcel.api.request;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import lombok.Data;
+import lombok.Value;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 
-@Data
+@Value
 public class ParcelTypeRequest {
     @NotBlank(message = "Provide name")
-    private String name;
+    String name;
     @NotBlank(message = "Provide description")
-    private String description;
+    String description;
     @NotNull(message = "Provide price")
     @Positive(message = "Price must be positive number")
-    private BigDecimal price;
+    BigDecimal price;
 
     @JsonCreator
     public ParcelTypeRequest(String name,

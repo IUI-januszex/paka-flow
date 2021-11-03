@@ -10,6 +10,6 @@ public interface ParcelRepositoryPort extends BaseRepositoryPort<Parcel> {
 
     Collection<Parcel> findParcelFormWarehouse(long warehouseId, WarehouseType warehouseType);
 
-    Collection<Parcel> findObservedParcel(long userId);
+    Collection<Parcel> findObservedParcel(String userId);
 
 }
