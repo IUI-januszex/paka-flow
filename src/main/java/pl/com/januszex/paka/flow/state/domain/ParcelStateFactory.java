@@ -28,11 +28,11 @@ public class ParcelStateFactory {
             case DELIVERED:
                 parcelState = new Delivered();
                 break;
-            case AT_MAGAZINE:
-                AtMagazine atMagazine = new AtMagazine();
-                atMagazine.setWarehouseId(request.getWarehouseId());
-                atMagazine.setWarehouseType(request.getWarehouseType());
-                parcelState = atMagazine;
+            case AT_WAREHOUSE:
+                AtWarehouse atWarehouse = new AtWarehouse();
+                atWarehouse.setWarehouseId(request.getWarehouseId());
+                atWarehouse.setWarehouseType(request.getWarehouseType());
+                parcelState = atWarehouse;
                 break;
             case ASSIGNED_TO_COURIER:
                 AssignedToCourier assignedToCourier = new AssignedToCourier();
@@ -42,11 +42,11 @@ public class ParcelStateFactory {
             case AT_SENDER:
                 parcelState = new AtSender();
                 break;
-            case ASSIGNED_TO_MAGAZINE:
-                AssignedToMagazine assignedToMagazine = new AssignedToMagazine();
-                assignedToMagazine.setWarehouseId(request.getWarehouseId());
-                assignedToMagazine.setWarehouseType(request.getWarehouseType());
-                parcelState = assignedToMagazine;
+            case ASSIGNED_TO_WAREHOUSE:
+                AssignedToWarehouse assignedToWarehouse = new AssignedToWarehouse();
+                assignedToWarehouse.setWarehouseId(request.getWarehouseId());
+                assignedToWarehouse.setWarehouseType(request.getWarehouseType());
+                parcelState = assignedToWarehouse;
                 break;
             default:
                 throw new IllegalArgumentException();

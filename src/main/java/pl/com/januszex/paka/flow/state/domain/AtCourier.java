@@ -21,6 +21,6 @@ class AtCourier extends ParcelState {
     protected boolean isNextStateValid(ParcelStateType nextState) {
         return nextState == ParcelStateType.DELIVERED ||
                 nextState == ParcelStateType.RETURNED ||
-                nextState == ParcelStateType.AT_MAGAZINE;
+                nextState == ParcelStateType.AT_WAREHOUSE;
     }
 }

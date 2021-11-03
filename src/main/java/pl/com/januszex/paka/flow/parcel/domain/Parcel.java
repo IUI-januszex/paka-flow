@@ -39,6 +39,9 @@ public class Parcel {
     @Column(nullable = false)
     private BigDecimal parcelFee;
 
+    @Column(nullable = false, name = "isFeePaid")
+    private boolean feePaid;
+
     @Column(nullable = false, name = "isPaid")
     private boolean paid;
 

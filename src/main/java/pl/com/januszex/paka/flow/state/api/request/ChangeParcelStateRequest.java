@@ -14,4 +14,6 @@ public class ChangeParcelStateRequest {
     private WarehouseType warehouseType;
 
     private Long warehouseId;
+
+    private Long parcelId;
 }

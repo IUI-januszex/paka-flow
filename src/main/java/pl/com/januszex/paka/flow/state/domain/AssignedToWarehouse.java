@@ -9,14 +9,14 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-class AssignedToMagazine extends ParcelState {
+public class AssignedToWarehouse extends ParcelState {
 
     private WarehouseType warehouseType;
     private Long warehouseId;
 
     @Override
     public ParcelStateType getType() {
-        return ParcelStateType.ASSIGNED_TO_MAGAZINE;
+        return ParcelStateType.ASSIGNED_TO_WAREHOUSE;
     }
 
     @Override

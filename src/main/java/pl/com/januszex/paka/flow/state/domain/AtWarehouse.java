@@ -9,18 +9,19 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-class AtMagazine extends ParcelState {
+public class AtWarehouse extends ParcelState {
 
     private WarehouseType warehouseType;
     private Long warehouseId;
 
     @Override
     public ParcelStateType getType() {
-        return ParcelStateType.AT_MAGAZINE;
+        return ParcelStateType.AT_WAREHOUSE;
     }
 
     @Override
     protected boolean isNextStateValid(ParcelStateType nextState) {
-        return nextState == ParcelStateType.ASSIGNED_TO_COURIER;
+        return nextState == ParcelStateType.ASSIGNED_TO_COURIER ||
+                nextState == ParcelStateType.ASSIGNED_TO_WAREHOUSE;
     }
 }
