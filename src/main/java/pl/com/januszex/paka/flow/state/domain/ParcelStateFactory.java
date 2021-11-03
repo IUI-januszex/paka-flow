@@ -30,7 +30,7 @@ public class ParcelStateFactory {
                 break;
             case AT_MAGAZINE:
                 AtMagazine atMagazine = new AtMagazine();
-                atMagazine.setMagazineId(request.getMagazineId());
+                atMagazine.setWarehouseId(request.getWarehouseId());
                 parcelState = atMagazine;
                 break;
             case ASSIGNED_TO_COURIER:
@@ -43,7 +43,7 @@ public class ParcelStateFactory {
                 break;
             case ASSIGNED_TO_MAGAZINE:
                 AssignedToMagazine assignedToMagazine = new AssignedToMagazine();
-                assignedToMagazine.setMagazineId(request.getMagazineId());
+                assignedToMagazine.setWarehouseId(request.getWarehouseId());
                 parcelState = assignedToMagazine;
                 break;
             default:

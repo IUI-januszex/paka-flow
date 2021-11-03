@@ -2,8 +2,8 @@ package pl.com.januszex.paka.flow.state.domain;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @EqualsAndHashCode(callSuper = true)
@@ -11,8 +11,8 @@ import javax.persistence.Entity;
 @Data
 class AtSender extends ParcelState {
 
-    @Column(nullable = false)
-    private Long magazineId;
+    private WarehouseType assignedWarehouseType;
+    private Long assignedWarehouseId;
 
     @Override
     public ParcelStateType getType() {

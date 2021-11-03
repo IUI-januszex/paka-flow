@@ -6,3 +6,8 @@ server:
   port: 8081
   servlet:
     context-path: '/api'
+services:
+  rest:
+    urls:
+      pakaWarehouseApiUrl: 'http://localhost:8082/api'
+      pakaUsersApiUrl: 'http://localhost:5000/api'
