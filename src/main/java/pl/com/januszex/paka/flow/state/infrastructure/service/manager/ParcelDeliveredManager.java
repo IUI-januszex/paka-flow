@@ -1,14 +1,20 @@
 package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
+import lombok.RequiredArgsConstructor;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelFeeNotPaid;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotPaid;
+import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.domain.Parcel;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.domain.ParcelState;
 import pl.com.januszex.paka.flow.state.domain.ParcelStateType;
 
+@RequiredArgsConstructor
 public class ParcelDeliveredManager implements ParcelStateManager {
+
+    private final ParcelServicePort parcelService;
+
     @Override
     public void validateChangeStateData(ChangeParcelStateRequest request) {
         if (!request.getNextState().equals(ParcelStateType.DELIVERED)) {
@@ -27,8 +33,8 @@ public class ParcelDeliveredManager implements ParcelStateManager {
         return AddressDto.of(parcelState.getParcel().getDeliveryAddress());
     }
 
-    private void checkParcelPaid(long parcelId) { //FIXME
-        Parcel parcel = new Parcel();
+    private void checkParcelPaid(long parcelId) {
+        Parcel parcel = parcelService.getById(parcelId);
         if (!parcel.isFeePaid()) {
             throw new ParcelFeeNotPaid(parcelId);
         }

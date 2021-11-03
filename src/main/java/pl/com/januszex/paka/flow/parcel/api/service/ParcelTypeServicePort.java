@@ -9,6 +9,8 @@ import java.util.Collection;
 public interface ParcelTypeServicePort {
     Collection<ParcelType> getAll();
 
+    Collection<ParcelType> getAllActive();
+
     ParcelType add(ParcelTypeRequest request);
 
     ParcelType update(long id, ParcelTypeRequest request);

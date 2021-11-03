@@ -60,6 +60,9 @@ public class Parcel {
     @Column(columnDefinition = "TEXT")
     private String receiverEmailAddress;
 
+    @ElementCollection
+    public List<String> observerIds;
+
     @JoinColumn(nullable = false, name = "deliveryAddressId")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     private Address deliveryAddress;

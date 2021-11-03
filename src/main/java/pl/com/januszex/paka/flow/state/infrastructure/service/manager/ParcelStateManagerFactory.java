@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
+import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.domain.ParcelStateType;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
@@ -11,11 +12,14 @@ public class ParcelStateManagerFactory {
 
     private final WarehouseDao warehouseDao;
     private final ParcelStateServicePort parcelStateService;
+    private final ParcelServicePort parcelService;
 
     public ParcelStateManagerFactory(WarehouseDao warehouseDao,
-                                     @Lazy ParcelStateServicePort parcelStateService) {
+                                     @Lazy ParcelStateServicePort parcelStateService,
+                                     ParcelServicePort parcelService) {
         this.warehouseDao = warehouseDao;
         this.parcelStateService = parcelStateService;
+        this.parcelService = parcelService;
     }
 
     public ParcelStateManager getInstance(ParcelStateType parcelStateType) {
@@ -29,9 +33,9 @@ public class ParcelStateManagerFactory {
             case AT_WAREHOUSE:
                 return new ParcelAtWarehouseManager(warehouseDao);
             case DELIVERED:
-                return new ParcelDeliveredManager();
+                return new ParcelDeliveredManager(parcelService);
             case RETURNED:
-                return new ParcelReturnedManager();
+                return new ParcelReturnedManager(parcelService);
             case AT_COURIER:
                 return new ParcelAtCourierManager(parcelStateService);
         }

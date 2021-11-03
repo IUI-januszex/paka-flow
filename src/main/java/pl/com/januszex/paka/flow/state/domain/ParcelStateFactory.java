@@ -13,7 +13,9 @@ public class ParcelStateFactory {
                                           ParcelState previousState,
                                           Parcel parcel,
                                           LocalDateTime now) {
-        previousState.checkNextState(request.getNextState());
+        if (previousState != null) {
+            previousState.checkNextState(request.getNextState());
+        }
 
         ParcelState parcelState;
         switch (request.getNextState()) {

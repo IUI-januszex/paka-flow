@@ -6,11 +6,20 @@ import pl.com.januszex.paka.flow.parcel.api.repository.ParcelTypeRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.domain.ParcelType;
 import pl.com.januszex.paka.flow.parcel.infrastructure.repository.jpa.ParcelTypeJpaRepository;
 
+import java.util.Collection;
+
 @Repository
 class ParcelTypeRepositoryAdapter extends BaseRepositoryAdapter<ParcelType> implements ParcelTypeRepositoryPort {
 
+    private final ParcelTypeJpaRepository parcelTypeJpaRepository;
+
     public ParcelTypeRepositoryAdapter(ParcelTypeJpaRepository parcelTypeJpaRepository) {
         super(parcelTypeJpaRepository);
+        this.parcelTypeJpaRepository = parcelTypeJpaRepository;
     }
 
+    @Override
+    public Collection<ParcelType> getActive() {
+        return parcelTypeJpaRepository.findAllByActiveTrue();
+    }
 }

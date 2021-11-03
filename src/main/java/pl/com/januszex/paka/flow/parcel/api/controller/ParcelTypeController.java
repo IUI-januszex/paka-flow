@@ -46,7 +46,14 @@ public class ParcelTypeController {
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping(path = {"/{id}"})
+    @GetMapping(path = "/active")
+    public ResponseEntity<Collection<ParcelTypeResponse>> getAllActive() {
+        return new ResponseEntity<>(parcelTypeService.getAllActive().stream()
+                .map(ParcelTypeResponse::of)
+                .collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{id}")
     public ResponseEntity<ParcelTypeResponse> getById(@PathVariable long id) {
         return new ResponseEntity<>(ParcelTypeResponse.of(parcelTypeService.getById(id)),
                 HttpStatus.OK);

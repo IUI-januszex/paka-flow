@@ -25,6 +25,11 @@ class ParcelTypeServiceAdapter implements ParcelTypeServicePort {
     }
 
     @Override
+    public Collection<ParcelType> getAllActive() {
+        return parcelTypeRepository.getActive();
+    }
+
+    @Override
     @Transactional
     public ParcelType add(ParcelTypeRequest request) {
         ParcelType model = new ParcelType();
