@@ -3,7 +3,7 @@ package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 import lombok.RequiredArgsConstructor;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.domain.Parcel;
-import pl.com.januszex.paka.flow.state.api.exception.MagazineNotProvidedException;
+import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.domain.AtWarehouse;
 import pl.com.januszex.paka.flow.state.domain.ParcelState;
@@ -23,7 +23,7 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
             throw new IllegalStateException();
         }
         if (Objects.isNull(request.getWarehouseId()) || Objects.isNull(request.getWarehouseType())) {
-            throw new MagazineNotProvidedException();
+            throw new WarehouseNotProvidedException();
         }
     }
 

@@ -8,7 +8,7 @@ import pl.com.januszex.paka.flow.state.domain.ParcelState;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -30,7 +30,7 @@ public class Parcel {
     private LocalDate expectedCourierArrivalDate;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(nullable = false, name = "parcelTypeId")
+    @JoinColumn(nullable = false, name = "PARCEL_TYPE_ID")
     private ParcelType parcelType;
 
     @Column(nullable = false)
@@ -39,16 +39,16 @@ public class Parcel {
     @Column(nullable = false)
     private BigDecimal parcelFee;
 
-    @Column(nullable = false, name = "isFeePaid")
+    @Column(nullable = false, name = "IS_FEE_PAID")
     private boolean feePaid;
 
-    @Column(nullable = false, name = "isPaid")
+    @Column(nullable = false, name = "IS_PAID")
     private boolean paid;
 
-    @Column(nullable = false, name = "isDateMoved")
+    @Column(nullable = false, name = "IS_DATE_MOVED")
     private boolean dateMoved;
 
-    @Column(nullable = false, name = "isMarkedToReturn")
+    @Column(nullable = false, name = "IS_MARKED_TO_RETURN")
     private boolean markedToReturn = false;
 
     @Column(nullable = false)
@@ -61,20 +61,19 @@ public class Parcel {
     private String receiverEmailAddress;
 
     @ElementCollection
-    public List<String> observerIds;
+    public Set<String> observerIds;
 
-    @JoinColumn(nullable = false, name = "deliveryAddressId")
+    @JoinColumn(nullable = false, name = "DELIVERY_ADDRESS_ID")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     private Address deliveryAddress;
 
-    @JoinColumn(nullable = false, name = "senderAddressId")
+    @JoinColumn(nullable = false, name = "SENDER_ADDRESS_ID")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)
     private Address senderAddress;
 
     @OneToMany(fetch = LAZY, mappedBy = "parcel", cascade = ALL)
-    private List<ParcelState> states;
+    private Set<ParcelState> states;
 
     @OneToMany(fetch = EAGER, mappedBy = "parcel", cascade = ALL)
-    private List<DeliveryAttempt> deliveryAttempts;
-
+    private Set<DeliveryAttempt> deliveryAttempts;
 }

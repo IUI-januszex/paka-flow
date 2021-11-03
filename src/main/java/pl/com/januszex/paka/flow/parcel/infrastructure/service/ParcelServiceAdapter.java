@@ -8,6 +8,10 @@ import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.domain.Parcel;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.warehouse.domain.WarehouseType;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +33,23 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     @Override
     public AddressDto getDestinationAddress(long parcelId) {
         return parcelStateService.getDestinationAddress(parcelStateService.getCurrentParcelState(parcelId));
+    }
+
+    @Override
+    public Collection<Parcel> getParcelFormWarehouse(long warehouseId, WarehouseType warehouseType) {
+        return parcelRepository.findParcelFormWarehouse(warehouseId, warehouseType);
+    }
+
+    @Override
+    public Collection<Parcel> getParcelFormWarehouseToReturn(long warehouseId, WarehouseType warehouseType) {
+        return getParcelFormWarehouse(warehouseId, warehouseType).stream()
+                .filter(parcel -> parcel.getDeliveryAttempts().size() == 3)
+                .collect(Collectors.toSet());
+    }
+
+    @Override
+    public Collection<Parcel> getObservedParcelByUser(long userId) {
+        return parcelRepository.findObservedParcel(userId);
     }
 
 }

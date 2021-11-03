@@ -16,7 +16,7 @@ public class ParcelStateManagerFactory {
 
     public ParcelStateManagerFactory(WarehouseDao warehouseDao,
                                      @Lazy ParcelStateServicePort parcelStateService,
-                                     ParcelServicePort parcelService) {
+                                     @Lazy ParcelServicePort parcelService) {
         this.warehouseDao = warehouseDao;
         this.parcelStateService = parcelStateService;
         this.parcelService = parcelService;
