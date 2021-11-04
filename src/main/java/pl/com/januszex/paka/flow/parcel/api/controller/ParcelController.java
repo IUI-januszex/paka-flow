@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
 import javax.validation.Valid;
 import java.net.URI;

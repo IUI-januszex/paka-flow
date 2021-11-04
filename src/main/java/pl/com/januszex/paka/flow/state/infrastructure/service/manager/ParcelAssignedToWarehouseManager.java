@@ -5,9 +5,9 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
-import pl.com.januszex.paka.flow.state.domain.AssignedToWarehouse;
-import pl.com.januszex.paka.flow.state.domain.ParcelState;
-import pl.com.januszex.paka.flow.state.domain.ParcelStateType;
+import pl.com.januszex.paka.flow.state.model.AssignedToWarehouse;
+import pl.com.januszex.paka.flow.state.model.ParcelState;
+import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 
 import java.util.Objects;

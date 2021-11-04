@@ -3,7 +3,7 @@ package pl.com.januszex.paka.flow.parcel.api.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Value;
-import pl.com.januszex.paka.flow.parcel.domain.ParcelType;
+import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 
 import java.math.BigDecimal;
 

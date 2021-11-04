@@ -2,7 +2,7 @@ package pl.com.januszex.paka.flow.parcel.api.service;
 
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.time.LocalDateTime;

@@ -1,7 +1,7 @@
-package pl.com.januszex.paka.flow.state.domain;
+package pl.com.januszex.paka.flow.state.model;
 
 import lombok.Data;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.IllegalNextState;
 
 import javax.persistence.*;

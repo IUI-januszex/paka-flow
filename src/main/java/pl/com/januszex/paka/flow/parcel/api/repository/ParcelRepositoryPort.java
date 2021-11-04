@@ -1,7 +1,7 @@
 package pl.com.januszex.paka.flow.parcel.api.repository;
 
 import pl.com.januszex.paka.flow.base.BaseRepositoryPort;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.util.Collection;

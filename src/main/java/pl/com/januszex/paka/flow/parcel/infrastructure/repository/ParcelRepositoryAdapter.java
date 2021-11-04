@@ -3,7 +3,7 @@ package pl.com.januszex.paka.flow.parcel.infrastructure.repository;
 import org.springframework.stereotype.Service;
 import pl.com.januszex.paka.flow.base.BaseRepositoryAdapter;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.parcel.infrastructure.repository.jpa.ParcelJpaRepository;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 

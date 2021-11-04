@@ -2,7 +2,7 @@ package pl.com.januszex.paka.flow.parcel.infrastructure.repository.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.util.Collection;

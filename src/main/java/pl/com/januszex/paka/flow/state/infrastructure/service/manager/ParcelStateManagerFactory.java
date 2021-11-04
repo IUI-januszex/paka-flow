@@ -4,7 +4,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
-import pl.com.januszex.paka.flow.state.domain.ParcelStateType;
+import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 
 @Service

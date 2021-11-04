@@ -2,7 +2,7 @@ package pl.com.januszex.paka.flow.state.infrastructure.repository.jpa;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import pl.com.januszex.paka.flow.state.domain.ParcelState;
+import pl.com.januszex.paka.flow.state.model.ParcelState;
 
 public interface ParcelStateJpaRepository extends JpaRepository<ParcelState, Long> {
 

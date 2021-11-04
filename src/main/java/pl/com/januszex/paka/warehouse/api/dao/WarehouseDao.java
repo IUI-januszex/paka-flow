@@ -1,6 +1,6 @@
 package pl.com.januszex.paka.warehouse.api.dao;
 
-import pl.com.januszex.paka.warehouse.api.dto.WarehouseDto;
+import pl.com.januszex.paka.warehouse.domain.WarehouseDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 public interface WarehouseDao {

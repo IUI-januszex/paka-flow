@@ -1,7 +1,7 @@
 package pl.com.januszex.paka.flow.state.api.exception;
 
 import pl.com.januszex.paka.flow.base.exception.BusinessLogicException;
-import pl.com.januszex.paka.flow.state.domain.ParcelStateType;
+import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 
 public class IllegalNextState extends BusinessLogicException {
     public IllegalNextState(ParcelStateType currentState, ParcelStateType nextState) {

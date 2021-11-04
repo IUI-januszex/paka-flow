@@ -2,7 +2,7 @@ package pl.com.januszex.paka.flow.address.api.response;
 
 import lombok.Builder;
 import lombok.Value;
-import pl.com.januszex.paka.flow.address.domain.Address;
+import pl.com.januszex.paka.flow.address.model.Address;
 
 @Value
 @Builder

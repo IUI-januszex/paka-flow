@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.warehouse.api.dto;
+package pl.com.januszex.paka.warehouse.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;

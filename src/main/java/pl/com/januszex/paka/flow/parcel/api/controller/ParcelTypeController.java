@@ -11,7 +11,7 @@ import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeRequest;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeAssignedParcelCountResponse;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeResponse;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
-import pl.com.januszex.paka.flow.parcel.domain.ParcelType;
+import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 
 import javax.validation.Valid;
 import java.net.URI;

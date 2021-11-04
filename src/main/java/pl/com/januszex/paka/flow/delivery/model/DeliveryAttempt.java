@@ -1,7 +1,7 @@
-package pl.com.januszex.paka.flow.delivery.domain;
+package pl.com.januszex.paka.flow.delivery.model;
 
 import lombok.Data;
-import pl.com.januszex.paka.flow.parcel.domain.Parcel;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

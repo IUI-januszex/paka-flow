@@ -1,9 +1,9 @@
-package pl.com.januszex.paka.flow.parcel.domain;
+package pl.com.januszex.paka.flow.parcel.model;
 
 import lombok.Data;
-import pl.com.januszex.paka.flow.address.domain.Address;
-import pl.com.januszex.paka.flow.delivery.domain.DeliveryAttempt;
-import pl.com.januszex.paka.flow.state.domain.ParcelState;
+import pl.com.januszex.paka.flow.address.model.Address;
+import pl.com.januszex.paka.flow.delivery.model.DeliveryAttempt;
+import pl.com.januszex.paka.flow.state.model.ParcelState;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -62,6 +62,7 @@ public class Parcel {
     private String receiverEmailAddress;
 
     @ElementCollection
+    //@Column(name = "OBSERVER_ID")
     public Set<String> observerIds;
 
     @JoinColumn(nullable = false, name = "DELIVERY_ADDRESS_ID")

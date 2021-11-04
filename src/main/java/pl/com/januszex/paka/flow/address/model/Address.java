@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.flow.address.domain;
+package pl.com.januszex.paka.flow.address.model;
 
 import lombok.Data;
 
