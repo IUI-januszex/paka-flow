@@ -9,11 +9,11 @@ import pl.com.januszex.paka.flow.state.api.exception.ParcelStateNotFound;
 import pl.com.januszex.paka.flow.state.api.repository.ParcelStateRepositoryPort;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.flow.state.infrastructure.service.manager.ParcelStateManager;
+import pl.com.januszex.paka.flow.state.infrastructure.service.manager.ParcelStateManagerFactory;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateFactory;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
-import pl.com.januszex.paka.flow.state.infrastructure.service.manager.ParcelStateManager;
-import pl.com.januszex.paka.flow.state.infrastructure.service.manager.ParcelStateManagerFactory;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import javax.annotation.PostConstruct;

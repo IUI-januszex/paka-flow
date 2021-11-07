@@ -7,7 +7,7 @@ import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.model.AtSender;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
-import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
 
 import java.util.Objects;
 

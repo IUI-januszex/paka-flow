@@ -24,9 +24,6 @@ public class RegisterParcelRequest {
     @NotNull(message = "Provide parcel type")
     private Long parcelType;
 
-    @NotNull(message = "Provide warehouse id")
-    private Long warehouseId;
-
     @NotBlank(message = "Provide receiver information")
     private String receiverDetails;
 

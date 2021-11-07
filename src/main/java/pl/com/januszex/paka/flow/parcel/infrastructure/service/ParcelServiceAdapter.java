@@ -15,6 +15,8 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
+import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.math.BigDecimal;
@@ -31,6 +33,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final ParcelStateServicePort parcelStateService;
     private final SecureRandom secureRandom;
     private final ParcelTypeServicePort parcelTypeService;
+    private final WarehouseDao warehouseDao;
 
     @Override
     public Parcel getById(long id) {
@@ -58,7 +61,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         parcel.setReceiverDetails(request.getReceiverDetails());
         parcel.setReceiverEmailAddress(request.getReceiverEmailAddress());
         parcel.setObserverIds(prepareObservingUserIds(senderId, request.getReceiverEmailAddress()));
-        parcel.setStates(prepareParcelStates(parcel, request, now));
+        parcel.setStates(prepareParcelStates(parcel, now));
 
         return parcelRepository.add(parcel);
     }
@@ -115,9 +118,17 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         return observingUsers;
     }
 
-    private List<ParcelState> prepareParcelStates(Parcel parcel, RegisterParcelRequest request, LocalDateTime now) {
+    private List<ParcelState> prepareParcelStates(Parcel parcel, LocalDateTime now) {
         List<ParcelState> parcelStates = new ArrayList<>();
-        parcelStates.add(parcelStateService.getInitState(request.getWarehouseId(), parcel, now));
+        WarehouseTrackRequestDto warehouseTrackRequestDto = WarehouseTrackRequestDto
+                .builder()
+                .sourcePostalCode(parcel.getSenderAddress().getPostalCode())
+                .destinationPostalCode(parcel.getDeliveryAddress().getPostalCode())
+                .build();
+        parcelStates.add(parcelStateService.getInitState(warehouseDao.getTrack(warehouseTrackRequestDto)
+                        .getSourceWarehouseId(),
+                parcel,
+                now));
         return parcelStates;
     }
 
