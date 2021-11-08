@@ -15,7 +15,7 @@ public class WarehouseTrackDto {
     private Long firstGlobalWarehouseId;
 
     @JsonProperty("idGlobalWarehouse2")
-    private Long secondWarehouseId;
+    private Long secondGlobalWarehouseId;
 
     @JsonProperty("idLocalWarehouseDestination")
     private Long destinationWarehouseId;

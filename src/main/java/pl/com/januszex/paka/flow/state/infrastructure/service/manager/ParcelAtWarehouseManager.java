@@ -9,6 +9,9 @@ import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
+import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
+import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.util.Objects;
 
@@ -41,7 +44,36 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
         if (parcel.isMarkedToReturn()) { //TODO think about it more in the future
             return AddressDto.of(parcel.getSenderAddress());
         }
-        return AddressDto.of(parcel.getDeliveryAddress());
+        AtWarehouse parcelAtWarehouse = cast(parcelState);
+        WarehouseTrackDto track = warehouseDao.getTrack(WarehouseTrackRequestDto.builder()
+                .sourcePostalCode(parcelState.getParcel().getSenderAddress().getPostalCode())
+                .destinationPostalCode(parcelState.getParcel().getDeliveryAddress().getPostalCode())
+                .build());
+        return parcelAtWarehouse.getWarehouseType() == WarehouseType.LOCAL ?
+                getDestinationAddressForLocalWarehouse(parcelState, parcelAtWarehouse, track) :
+                getDestinationForGlobalWarehouse(track);
+    }
+
+    private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track) {
+        if(Objects.isNull(track.getSecondGlobalWarehouseId())) {
+            return warehouseDao.getLocalById(track.getDestinationWarehouseId())
+                    .getAddress();
+        }
+        return warehouseDao.getGlobalLocalById(track.getSecondGlobalWarehouseId())
+                .getAddress();
+    }
+
+    private AddressDto getDestinationAddressForLocalWarehouse(ParcelState parcelState,
+                                                              AtWarehouse parcelAtWarehouse,
+                                                              WarehouseTrackDto track) {
+        if (Objects.isNull(track.getFirstGlobalWarehouseId())) {
+            return AddressDto.of(parcelState.getParcel().getDeliveryAddress());
+        }
+        if (parcelAtWarehouse.getWarehouseId().equals(track.getDestinationWarehouseId())) {
+            return AddressDto.of(parcelState.getParcel().getDeliveryAddress());
+        }
+        return warehouseDao.getGlobalLocalById(track.getFirstGlobalWarehouseId())
+                .getAddress();
     }
 
     private AtWarehouse cast(ParcelState parcelState) {

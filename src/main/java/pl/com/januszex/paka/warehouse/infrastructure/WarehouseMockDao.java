@@ -46,7 +46,7 @@ class WarehouseMockDao implements WarehouseDao {
         return WarehouseTrackDto.builder()
                 .sourceWarehouseId(1L)
                 .firstGlobalWarehouseId(2L)
-                .secondWarehouseId(3L)
+                .secondGlobalWarehouseId(3L)
                 .destinationWarehouseId(4L)
                 .build();
     }
