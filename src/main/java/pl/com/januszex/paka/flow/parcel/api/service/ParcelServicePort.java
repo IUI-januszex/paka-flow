@@ -5,14 +5,13 @@ import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 
 public interface ParcelServicePort {
 
     Parcel getById(long id);
 
-    Parcel registerParcel(String senderId, RegisterParcelRequest request, LocalDateTime now);
+    Parcel registerParcel(String senderId, RegisterParcelRequest request);
 
     AddressDto getSourceAddress(long parcelId);
 

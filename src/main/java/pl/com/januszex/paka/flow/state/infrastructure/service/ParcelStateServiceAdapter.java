@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
+import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.ParcelStateNotFound;
 import pl.com.januszex.paka.flow.state.api.repository.ParcelStateRepositoryPort;
@@ -17,7 +18,6 @@ import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -27,6 +27,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
 
     private final ParcelStateRepositoryPort parcelStateRepository;
     private final ParcelStateManagerFactory parcelStateManagerFactory;
+    private final DateTimeServicePort dateTimeService;
     private final Map<ParcelStateType, ParcelStateManager> managers = new EnumMap<>(ParcelStateType.class);
 
     @Override
@@ -41,7 +42,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
 
     @Override
     @Transactional
-    public ParcelState changeParcelState(ChangeParcelStateRequest request, LocalDateTime now) {
+    public ParcelState changeParcelState(ChangeParcelStateRequest request) {
         ParcelState currentState = getCurrentParcelState(request.getParcelId());
         ParcelStateManager stateManager = getManager(request.getNextState());
         stateManager.validateChangeStateData(request);
@@ -49,11 +50,11 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
         return parcelStateRepository.add(ParcelStateFactory.newInstance(request,
                 currentState,
                 currentState.getParcel(),
-                now));
+                dateTimeService.getNow()));
     }
 
     @Override
-    public ParcelState getInitState(long localWarehouseId, Parcel parcel, LocalDateTime now) {
+    public ParcelState getInitState(long localWarehouseId, Parcel parcel) {
         ChangeParcelStateRequest parcelStateRequest = new ChangeParcelStateRequest();
         parcelStateRequest.setNextState(ParcelStateType.AT_SENDER);
         parcelStateRequest.setWarehouseId(localWarehouseId);
@@ -62,7 +63,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
         return ParcelStateFactory.newInstance(parcelStateRequest,
                 null,
                 parcel,
-                LocalDateTime.now());
+                dateTimeService.getNow());
     }
 
     @Override

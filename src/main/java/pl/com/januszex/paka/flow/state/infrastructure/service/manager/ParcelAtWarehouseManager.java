@@ -55,7 +55,7 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
     }
 
     private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track) {
-        if(Objects.isNull(track.getSecondGlobalWarehouseId())) {
+        if (Objects.isNull(track.getSecondGlobalWarehouseId())) {
             return warehouseDao.getLocalById(track.getDestinationWarehouseId())
                     .getAddress();
         }

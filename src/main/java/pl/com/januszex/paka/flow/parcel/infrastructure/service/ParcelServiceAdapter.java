@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.request.AddressRequest;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
+import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
@@ -34,6 +35,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final SecureRandom secureRandom;
     private final ParcelTypeServicePort parcelTypeService;
     private final WarehouseDao warehouseDao;
+    private final DateTimeServicePort dateTimeService;
 
     @Override
     public Parcel getById(long id) {
@@ -42,7 +44,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
 
     @Override
     @Transactional
-    public Parcel registerParcel(String senderId, RegisterParcelRequest request, LocalDateTime now) {
+    public Parcel registerParcel(String senderId, RegisterParcelRequest request) {
         if (Objects.nonNull(request.getPrice()) && request.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Price cannot be negative");
         }
@@ -61,7 +63,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         parcel.setReceiverDetails(request.getReceiverDetails());
         parcel.setReceiverEmailAddress(request.getReceiverEmailAddress());
         parcel.setObserverIds(prepareObservingUserIds(senderId, request.getReceiverEmailAddress()));
-        parcel.setStates(prepareParcelStates(parcel, now));
+        parcel.setStates(prepareParcelStates(parcel, dateTimeService.getNow()));
 
         return parcelRepository.add(parcel);
     }
