@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
+import pl.com.januszex.paka.flow.state.domain.AssignToCourierOperation;
+import pl.com.januszex.paka.flow.state.domain.Operation;
 import pl.com.januszex.paka.flow.state.model.AtSender;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
@@ -37,6 +39,11 @@ class ParcelAtSenderManager implements ParcelStateManager {
         return warehouseDao
                 .getById(parcelAtSender.getWarehouseId(), parcelAtSender.getWarehouseType())
                 .getAddress();
+    }
+
+    @Override
+    public Operation getNextOperation(ParcelState parcelState) {
+        return new AssignToCourierOperation();
     }
 
     private AtSender cast(ParcelState parcelState) {

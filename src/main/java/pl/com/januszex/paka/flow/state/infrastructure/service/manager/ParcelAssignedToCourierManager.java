@@ -5,6 +5,8 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.state.api.exception.CourierNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.flow.state.domain.Operation;
+import pl.com.januszex.paka.flow.state.domain.PickupOperation;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 
@@ -33,6 +35,11 @@ class ParcelAssignedToCourierManager implements ParcelStateManager {
     @Override
     public AddressDto getDestinationAddress(ParcelState parcelState) {
         return parcelStateService.getDestinationAddress(getPreviousParcelState(parcelState));
+    }
+
+    @Override
+    public Operation getNextOperation(ParcelState parcelState) {
+        return new PickupOperation();
     }
 
 

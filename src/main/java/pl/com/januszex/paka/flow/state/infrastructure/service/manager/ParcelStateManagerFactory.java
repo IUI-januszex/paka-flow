@@ -35,7 +35,7 @@ public class ParcelStateManagerFactory {
             case RETURNED:
                 return new ParcelReturnedManager(parcelService);
             case AT_COURIER:
-                return new ParcelAtCourierManager(parcelStateService);
+                return new ParcelAtCourierManager(parcelStateService, warehouseDao);
         }
         throw new IllegalStateException("Unsupported parcel state");
     }

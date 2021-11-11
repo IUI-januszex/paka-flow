@@ -5,6 +5,8 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
+import pl.com.januszex.paka.flow.state.domain.AssignToCourierOperation;
+import pl.com.januszex.paka.flow.state.domain.Operation;
 import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
@@ -52,6 +54,11 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
         return parcelAtWarehouse.getWarehouseType() == WarehouseType.LOCAL ?
                 getDestinationAddressForLocalWarehouse(parcelState, parcelAtWarehouse, track) :
                 getDestinationForGlobalWarehouse(track);
+    }
+
+    @Override
+    public Operation getNextOperation(ParcelState parcelState) {
+        return new AssignToCourierOperation();
     }
 
     private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track) {
