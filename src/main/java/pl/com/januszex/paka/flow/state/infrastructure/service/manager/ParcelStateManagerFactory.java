@@ -24,8 +24,6 @@ public class ParcelStateManagerFactory {
 
     public ParcelStateManager getInstance(ParcelStateType parcelStateType) {
         switch (parcelStateType) {
-            case ASSIGNED_TO_WAREHOUSE:
-                return new ParcelAssignedToWarehouseManager(warehouseDao, parcelStateService);
             case AT_SENDER:
                 return new ParcelAtSenderManager(warehouseDao);
             case ASSIGNED_TO_COURIER:

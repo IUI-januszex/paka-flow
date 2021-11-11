@@ -47,12 +47,6 @@ public class ParcelStateFactory {
                 atSender.setWarehouseType(request.getWarehouseType());
                 parcelState = atSender;
                 break;
-            case ASSIGNED_TO_WAREHOUSE:
-                AssignedToWarehouse assignedToWarehouse = new AssignedToWarehouse();
-                assignedToWarehouse.setWarehouseId(request.getWarehouseId());
-                assignedToWarehouse.setWarehouseType(request.getWarehouseType());
-                parcelState = assignedToWarehouse;
-                break;
             default:
                 throw new IllegalArgumentException();
         }

@@ -21,7 +21,6 @@ public class AtWarehouse extends ParcelState {
 
     @Override
     protected boolean isNextStateValid(ParcelStateType nextState) {
-        return nextState == ParcelStateType.ASSIGNED_TO_COURIER ||
-                nextState == ParcelStateType.ASSIGNED_TO_WAREHOUSE;
+        return nextState == ParcelStateType.ASSIGNED_TO_COURIER;
     }
 }
