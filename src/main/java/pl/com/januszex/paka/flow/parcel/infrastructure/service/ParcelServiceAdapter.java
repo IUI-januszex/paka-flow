@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.request.AddressRequest;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
-import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
@@ -35,7 +34,6 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final SecureRandom secureRandom;
     private final ParcelTypeServicePort parcelTypeService;
     private final WarehouseDao warehouseDao;
-    private final DateTimeServicePort dateTimeService;
 
     @Override
     public Parcel getById(long id) {
@@ -63,7 +61,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         parcel.setReceiverDetails(request.getReceiverDetails());
         parcel.setReceiverEmailAddress(request.getReceiverEmailAddress());
         parcel.setObserverIds(prepareObservingUserIds(senderId, request.getReceiverEmailAddress()));
-        parcel.setStates(prepareParcelStates(parcel, dateTimeService.getNow()));
+        parcel.setStates(prepareParcelStates(parcel));
 
         return parcelRepository.add(parcel);
     }
@@ -120,7 +118,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         return observingUsers;
     }
 
-    private List<ParcelState> prepareParcelStates(Parcel parcel, LocalDateTime now) {
+    private List<ParcelState> prepareParcelStates(Parcel parcel) {
         List<ParcelState> parcelStates = new ArrayList<>();
         WarehouseTrackRequestDto warehouseTrackRequestDto = WarehouseTrackRequestDto
                 .builder()
@@ -129,8 +127,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
                 .build();
         parcelStates.add(parcelStateService.getInitState(warehouseDao.getTrack(warehouseTrackRequestDto)
                         .getSourceWarehouseId(),
-                parcel,
-                now));
+                parcel));
         return parcelStates;
     }
 

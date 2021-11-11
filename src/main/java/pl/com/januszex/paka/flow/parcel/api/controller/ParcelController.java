@@ -13,7 +13,6 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
 import javax.validation.Valid;
 import java.net.URI;
-import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class ParcelController {
 
     @PostMapping
     public ResponseEntity<Object> registerParcel(@RequestBody @Valid RegisterParcelRequest request) {
-        Parcel parcel = parcelService.registerParcel("1", request, LocalDateTime.now());
+        Parcel parcel = parcelService.registerParcel("1", request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcel.getId()).toUri();
         return ResponseEntity.created(location).build();
