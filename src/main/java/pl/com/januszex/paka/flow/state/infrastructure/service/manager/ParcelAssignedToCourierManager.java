@@ -28,6 +28,11 @@ class ParcelAssignedToCourierManager implements ParcelStateManager {
     }
 
     @Override
+    public void doPostChangeOperations(ParcelState newParcelState) {
+        // do nothing
+    }
+
+    @Override
     public AddressDto getSourceAddress(ParcelState parcelState) {
         return parcelStateService.getSourceAddress(getPreviousParcelState(parcelState));
     }

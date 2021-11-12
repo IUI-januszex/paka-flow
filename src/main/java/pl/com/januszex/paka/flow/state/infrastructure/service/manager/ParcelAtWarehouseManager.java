@@ -1,8 +1,8 @@
 package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
-import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.domain.AssignToCourierOperation;
@@ -18,6 +18,7 @@ import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 import java.util.Objects;
 
 @RequiredArgsConstructor
+@Slf4j
 class ParcelAtWarehouseManager implements ParcelStateManager {
 
     private final WarehouseDao warehouseDao;
@@ -33,6 +34,17 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
     }
 
     @Override
+    public void doPostChangeOperations(ParcelState newParcelState) {
+        WarehouseTrackDto warehouseTrack = getWarehouseTrack(newParcelState);
+        AtWarehouse atWarehouse = cast(newParcelState);
+        if (atWarehouse.getWarehouseType() == WarehouseType.LOCAL &&
+                atWarehouse.getId().equals(warehouseTrack.getSourceWarehouseId())) {
+            log.info("Update courier arrival");
+            log.info("Send notification to sender when courier will arrive");
+        }
+    }
+
+    @Override
     public AddressDto getSourceAddress(ParcelState parcelState) {
         AtWarehouse parcelAtWarehouse = cast(parcelState);
         return warehouseDao
@@ -42,15 +54,8 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
 
     @Override
     public AddressDto getDestinationAddress(ParcelState parcelState) {
-        Parcel parcel = parcelState.getParcel();
-        if (parcel.isMarkedToReturn()) { //TODO think about it more in the future
-            return AddressDto.of(parcel.getSenderAddress());
-        }
         AtWarehouse parcelAtWarehouse = cast(parcelState);
-        WarehouseTrackDto track = warehouseDao.getTrack(WarehouseTrackRequestDto.builder()
-                .sourcePostalCode(parcelState.getParcel().getSenderAddress().getPostalCode())
-                .destinationPostalCode(parcelState.getParcel().getDeliveryAddress().getPostalCode())
-                .build());
+        WarehouseTrackDto track = getWarehouseTrack(parcelState);
         return parcelAtWarehouse.getWarehouseType() == WarehouseType.LOCAL ?
                 getDestinationAddressForLocalWarehouse(parcelState, parcelAtWarehouse, track) :
                 getDestinationForGlobalWarehouse(track);
@@ -59,6 +64,13 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
     @Override
     public Operation getNextOperation(ParcelState parcelState) {
         return new AssignToCourierOperation();
+    }
+
+    private WarehouseTrackDto getWarehouseTrack(ParcelState parcelState) {
+        return warehouseDao.getTrack(WarehouseTrackRequestDto.builder()
+                .sourcePostalCode(parcelState.getParcel().getSenderAddress().getPostalCode())
+                .destinationPostalCode(parcelState.getParcel().getDeliveryAddress().getPostalCode())
+                .build());
     }
 
     private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track) {

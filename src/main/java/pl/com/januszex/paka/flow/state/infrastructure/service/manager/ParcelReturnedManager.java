@@ -25,6 +25,11 @@ public class ParcelReturnedManager implements ParcelStateManager {
     }
 
     @Override
+    public void doPostChangeOperations(ParcelState newParcelState) {
+        //notify sender
+    }
+
+    @Override
     public AddressDto getSourceAddress(ParcelState parcelState) {
         return AddressDto.of(parcelState.getParcel().getSenderAddress());
     }

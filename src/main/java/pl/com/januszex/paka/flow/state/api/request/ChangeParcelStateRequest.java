@@ -9,7 +9,7 @@ public class ChangeParcelStateRequest {
 
     private ParcelStateType nextState;
 
-    private Long courierId;
+    private String courierId;
 
     private WarehouseType warehouseType;
 

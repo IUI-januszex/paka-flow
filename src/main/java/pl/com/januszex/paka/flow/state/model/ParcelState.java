@@ -3,6 +3,7 @@ package pl.com.januszex.paka.flow.state.model;
 import lombok.Data;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.IllegalNextState;
+import pl.com.januszex.paka.flow.state.api.repose.ParcelStateResponse;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -39,6 +40,8 @@ public abstract class ParcelState {
     }
 
     public abstract ParcelStateType getType();
+
+    public abstract ParcelStateResponse toResponse();
 
     protected abstract boolean isNextStateValid(ParcelStateType nextState);
 

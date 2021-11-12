@@ -13,4 +13,6 @@ public interface ParcelStateServicePort extends ParcelStateManager {
     ParcelState changeParcelState(ChangeParcelStateRequest request);
 
     ParcelState getInitState(long localWarehouseId, Parcel parcel);
+
+    void deleteLastParcelState(long parcelId);
 }

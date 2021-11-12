@@ -19,7 +19,7 @@ public class DeliveryAttempt {
     private LocalDateTime dateTime;
 
     @Column(nullable = false)
-    private Long courierId;
+    private String courierId;
 
     @ManyToOne(fetch = EAGER)
     @JoinColumn(nullable = false, name = "parcelId")

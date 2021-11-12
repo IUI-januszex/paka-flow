@@ -9,6 +9,8 @@ public interface ParcelStateManager {
 
     void validateChangeStateData(ChangeParcelStateRequest request);
 
+    void doPostChangeOperations(ParcelState newParcelState);
+
     AddressDto getSourceAddress(ParcelState parcelState);
 
     AddressDto getDestinationAddress(ParcelState parcelState);

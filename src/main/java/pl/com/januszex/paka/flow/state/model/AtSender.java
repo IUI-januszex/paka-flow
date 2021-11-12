@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.state.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import pl.com.januszex.paka.flow.state.api.repose.ParcelStateResponse;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import javax.persistence.Entity;
@@ -17,6 +18,16 @@ public class AtSender extends ParcelState {
     @Override
     public ParcelStateType getType() {
         return ParcelStateType.AT_SENDER;
+    }
+
+    @Override
+    public ParcelStateResponse toResponse() {
+        return ParcelStateResponse
+                .builder()
+                .type(getType())
+                .warehouseId(warehouseId)
+                .warehouseType(warehouseType)
+                .build();
     }
 
     @Override

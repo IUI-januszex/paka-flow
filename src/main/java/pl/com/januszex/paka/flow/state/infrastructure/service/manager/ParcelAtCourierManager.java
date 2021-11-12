@@ -1,6 +1,7 @@
 package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.CourierNotProvidedException;
@@ -9,6 +10,7 @@ import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.domain.DeliverToClient;
 import pl.com.januszex.paka.flow.state.domain.DeliverToWarehouse;
 import pl.com.januszex.paka.flow.state.domain.Operation;
+import pl.com.januszex.paka.flow.state.domain.OperationType;
 import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
@@ -20,6 +22,7 @@ import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 import java.util.Objects;
 
 @RequiredArgsConstructor
+@Slf4j
 class ParcelAtCourierManager implements ParcelStateManager {
 
     private final ParcelStateServicePort parcelStateService;
@@ -33,6 +36,13 @@ class ParcelAtCourierManager implements ParcelStateManager {
         }
         if (Objects.isNull(request.getCourierId())) {
             throw new CourierNotProvidedException();
+        }
+    }
+
+    @Override
+    public void doPostChangeOperations(ParcelState newParcelState) {
+        if (getNextOperation(newParcelState).getOperationType() == OperationType.DELIVER_TO_CLIENT) {
+            log.info("Send notification that courier will arrive today");
         }
     }
 
