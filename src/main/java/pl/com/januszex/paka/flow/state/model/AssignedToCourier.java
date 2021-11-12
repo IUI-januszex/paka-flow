@@ -22,6 +22,7 @@ class AssignedToCourier extends ParcelState {
     public ParcelStateResponse toResponse() {
         return ParcelStateResponse.builder()
                 .type(getType())
+                .changeTime(getChangeTime())
                 .courierId(courierId)
                 .build();
     }

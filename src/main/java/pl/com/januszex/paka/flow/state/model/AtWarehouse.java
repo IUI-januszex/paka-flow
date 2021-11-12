@@ -25,6 +25,7 @@ public class AtWarehouse extends ParcelState {
         return ParcelStateResponse
                 .builder()
                 .type(getType())
+                .changeTime(getChangeTime())
                 .warehouseId(warehouseId)
                 .warehouseType(warehouseType)
                 .build();

@@ -10,7 +10,10 @@ class Delivered extends ParcelState {
 
     @Override
     public ParcelStateResponse toResponse() {
-        return ParcelStateResponse.builder().type(getType()).build();
+        return ParcelStateResponse.builder()
+                .type(getType())
+                .changeTime(getChangeTime())
+                .build();
     }
 
     @Override
