@@ -3,7 +3,6 @@ package pl.com.januszex.paka.flow.parcel.api.request;
 import lombok.Data;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
