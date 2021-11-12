@@ -8,6 +8,7 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
+import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
@@ -94,6 +95,26 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     @Override
     public Collection<Parcel> getObservedParcelByUser(String userId) {
         return parcelRepository.findObservedParcel(userId);
+    }
+
+    @Override
+    public void pickupParcel(long parcelId, String courierId) {
+
+    }
+
+    @Override
+    public void deliverParcelsAtWarehouse(String courierId, DeliverToWarehouseRequest deliverToWarehouseRequest) {
+
+    }
+
+    @Override
+    public void deliverParcelToClient(long parcelId, String courierId) {
+
+    }
+
+    @Override
+    public void assignParcelToCourier(long parcelId, String courierId, String logisticianId) {
+
     }
 
     private Address mapAddressRequest(AddressRequest request) {
