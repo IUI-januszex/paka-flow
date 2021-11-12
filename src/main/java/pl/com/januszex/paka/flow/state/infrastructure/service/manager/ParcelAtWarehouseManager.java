@@ -3,9 +3,11 @@ package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
+import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.domain.AssignToCourierOperation;
+import pl.com.januszex.paka.flow.state.domain.NoOperation;
 import pl.com.januszex.paka.flow.state.domain.Operation;
 import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
@@ -15,6 +17,7 @@ import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ import java.util.Objects;
 class ParcelAtWarehouseManager implements ParcelStateManager {
 
     private final WarehouseDao warehouseDao;
+    private final DateTimeServicePort dateTimeService;
 
     @Override
     public void validateChangeStateData(ChangeParcelStateRequest request) {
@@ -63,7 +67,15 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
 
     @Override
     public Operation getNextOperation(ParcelState parcelState) {
+        if (isParcelNotDeliverable(parcelState)) {
+            return new NoOperation();
+        }
         return new AssignToCourierOperation();
+    }
+
+    private boolean isParcelNotDeliverable(ParcelState parcelState) {
+        return getDestinationAddress(parcelState).equals(AddressDto.of(parcelState.getParcel().getDeliveryAddress())) &&
+                !dateTimeService.isToday(LocalDateTime.from(parcelState.getParcel().getExpectedCourierArrivalDate()));
     }
 
     private WarehouseTrackDto getWarehouseTrack(ParcelState parcelState) {
