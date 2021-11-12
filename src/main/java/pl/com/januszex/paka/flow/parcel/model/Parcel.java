@@ -53,13 +53,25 @@ public class Parcel {
     private boolean markedToReturn = false;
 
     @Column(nullable = false)
-    private String senderId;
+    private String sendingUserId;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String senderDetails;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String senderEmailAddress;
+
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String senderPhoneNumber;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String receiverDetails;
 
     @Column(columnDefinition = "TEXT")
     private String receiverEmailAddress;
+
+    @Column(columnDefinition = "TEXT")
+    private String receiverPhoneNumber;
 
     @ElementCollection
     //@Column(name = "OBSERVER_ID")

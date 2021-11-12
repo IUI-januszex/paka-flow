@@ -24,11 +24,23 @@ public class RegisterParcelRequest {
     @NotNull(message = "Provide parcel type")
     private Long parcelType;
 
+    @NotBlank(message = "Provide sender information")
+    private String senderDetails;
+
+    @Email(message = "Provide valid sender email address")
+    private String senderEmailAddress;
+
+    @NotBlank(message = "Provide valid sender phone number")
+    private String senderPhoneNumber;
+
     @NotBlank(message = "Provide receiver information")
     private String receiverDetails;
 
     @Email(message = "Provide valid receiver email address")
     private String receiverEmailAddress;
+
+    @NotBlank(message = "Provide valid receiver phone number")
+    private String receiverPhoneNumber;
 
     private BigDecimal price;
 }

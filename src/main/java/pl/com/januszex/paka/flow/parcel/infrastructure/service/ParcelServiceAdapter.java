@@ -51,14 +51,18 @@ public class ParcelServiceAdapter implements ParcelServicePort {
 
         parcel.setDeliveryAddress(mapAddressRequest(request.getDeliveryAddress()));
         parcel.setSenderAddress(mapAddressRequest(request.getSenderAddress()));
-        parcel.setSenderId(senderId);
+        parcel.setSendingUserId(senderId);
         parcel.setPin(generatePin());
         parcel.setParcelType(parcelType);
         parcel.setParcelFee(parcelType.getPrice());
         parcel.setParcelPrice(request.getPrice());
         parcel.setPaid(Objects.nonNull(request.getPrice()) && !request.getPrice().equals(BigDecimal.ZERO));
         parcel.setReceiverDetails(request.getReceiverDetails());
+        parcel.setReceiverPhoneNumber(request.getReceiverPhoneNumber());
         parcel.setReceiverEmailAddress(request.getReceiverEmailAddress());
+        parcel.setSenderDetails(request.getSenderDetails());
+        parcel.setSenderPhoneNumber(request.getSenderPhoneNumber());
+        parcel.setSenderEmailAddress(request.getSenderEmailAddress());
         parcel.setObserverIds(prepareObservingUserIds(senderId, request.getReceiverEmailAddress()));
         parcel.setStates(prepareParcelStates(parcel));
 
