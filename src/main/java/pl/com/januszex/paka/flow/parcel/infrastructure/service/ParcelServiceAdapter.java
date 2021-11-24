@@ -17,6 +17,8 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
+import pl.com.januszex.paka.users.dao.UserDao;
+import pl.com.januszex.paka.users.dto.UserDto;
 import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
@@ -35,6 +37,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final SecureRandom secureRandom;
     private final ParcelTypeServicePort parcelTypeService;
     private final WarehouseDao warehouseDao;
+    private final UserDao userDao;
 
     @Override
     public Parcel getById(long id) {
@@ -154,7 +157,9 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private Set<String> prepareObservingUserIds(String senderId, String receiverEmailAddress) {
         Set<String> observingUsers = new HashSet<>();
         observingUsers.add(senderId);
-        //TODO find user by email
+        userDao.getUserByEmail(receiverEmailAddress)
+                .map(UserDto::getId)
+                .ifPresent(observingUsers::add);
         return observingUsers;
     }
 
