@@ -1,4 +1,10 @@
 spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: paka
+    password: paka
+
   profiles:
     active: dev
 server:
@@ -7,6 +13,7 @@ server:
   servlet:
     context-path: '/api'
 services:
+  notificationQueue: notifications
   rest:
     urls:
       pakaWarehouseApiUrl: 'http://localhost:8082/api'

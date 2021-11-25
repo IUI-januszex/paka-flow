@@ -24,11 +24,11 @@ public class NotificationWithPinData extends NotificationData {
         this.arrivalDate = arrivalDate;
     }
 
-    public static NotificationWithPinData getInstanceForSender(Parcel parcel) {
+    public static NotificationWithPinData getParcelRegisteredSender(Parcel parcel) {
         return getNotification(parcel, NotificationType.PARCEL_REGISTERED_SENDER);
     }
 
-    public static NotificationWithPinData getInstanceForReceiver(Parcel parcel) {
+    public static NotificationWithPinData getCourierWillArrive(Parcel parcel) {
         return getNotification(parcel, NotificationType.COURIER_WILL_ARRIVE);
     }
 
