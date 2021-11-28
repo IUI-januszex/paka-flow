@@ -51,10 +51,10 @@ public class ParcelViewCreator {
             operations.add(new DeleteOperation());
         }
         if (currentUserService.isCourier()) {
-            if (!parcel.isFeePaid()) {
+            if (!parcel.isFeePaid() && parcel.isFeePaid()) {
                 operations.add(new PayFeeOperation(parcel.getParcelFee()));
             }
-            if (!parcel.isPaid()) {
+            if (!parcel.isPaid() && parcel.isParcelPayable()) {
                 operations.add(new PayParcelOperation(parcel.getParcelPrice()));
             }
         }

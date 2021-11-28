@@ -90,4 +90,12 @@ public class Parcel {
 
     @OneToMany(fetch = EAGER, mappedBy = "parcel", cascade = ALL)
     private List<DeliveryAttempt> deliveryAttempts;
+
+    public boolean isParcelPayable() {
+        return !paid && parcelPrice != null && !parcelPrice.equals(BigDecimal.ZERO);
+    }
+
+    public boolean isFeePayable() {
+        return !feePaid && parcelFee != null && !parcelFee.equals(BigDecimal.ZERO);
+    }
 }

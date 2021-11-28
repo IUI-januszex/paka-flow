@@ -1,9 +1,11 @@
 package pl.com.januszex.paka.notification.domain;
 
 import lombok.Getter;
+import lombok.ToString;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
 @Getter
+@ToString
 public class NotificationData {
 
     private final String emailAddress;

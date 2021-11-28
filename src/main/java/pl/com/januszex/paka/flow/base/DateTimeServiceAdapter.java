@@ -23,6 +23,11 @@ class DateTimeServiceAdapter implements DateTimeServicePort {
     }
 
     @Override
+    public LocalDate addWorkdays(int workdays) {
+        return addWorkdays(LocalDate.now(), workdays);
+    }
+
+    @Override
     public LocalDate addWorkdays(LocalDate date, int workdays) {
         if (workdays < 1) {
             return date;

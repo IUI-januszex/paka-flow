@@ -1,11 +1,13 @@
 package pl.com.januszex.paka.notification.domain;
 
 import lombok.Getter;
+import lombok.ToString;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
 import java.time.LocalDate;
 
 @Getter
+@ToString(callSuper = true)
 public class NotificationWithPinData extends NotificationData {
 
     private final String pin;

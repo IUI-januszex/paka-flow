@@ -71,7 +71,9 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         parcel.setObserverIds(prepareObservingUserIds(senderId, request.getReceiverEmailAddress()));
         parcel.setStates(prepareParcelStates(parcel));
 
-        return parcelRepository.add(parcel);
+        parcel = parcelRepository.add(parcel);
+        parcelStateService.doPostChangeOperations(parcel.getStates().iterator().next());
+        return parcel;
     }
 
     @Override

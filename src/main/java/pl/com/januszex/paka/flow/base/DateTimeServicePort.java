@@ -8,5 +8,7 @@ public interface DateTimeServicePort {
 
     boolean isToday(LocalDateTime localDateTime);
 
+    LocalDate addWorkdays(int workdays);
+
     LocalDate addWorkdays(LocalDate date, int workdays);
 }
