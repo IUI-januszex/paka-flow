@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.flow.state.domain;
+package pl.com.januszex.paka.flow.parcel.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

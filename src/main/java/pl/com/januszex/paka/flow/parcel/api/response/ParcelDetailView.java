@@ -4,11 +4,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
+import pl.com.januszex.paka.flow.parcel.domain.Operation;
 import pl.com.januszex.paka.flow.state.api.repose.ParcelStateResponse;
-import pl.com.januszex.paka.flow.state.domain.Operation;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.util.Collection;
 
 @Data
 @Builder
@@ -16,7 +17,7 @@ public class ParcelDetailView {
     long id;
     String senderInfo;
     String receiverInfo;
-    LocalDateTime estimatedDeliveryTime;
+    LocalDate expectedCourierArrivalDate;
     BigDecimal parcelFee;
     BigDecimal parcelPrice;
     @JsonProperty("isFeePaid")
@@ -26,5 +27,5 @@ public class ParcelDetailView {
     ParcelStateResponse currentSate;
     AddressDto sourceAddress;
     AddressDto destinationAddress;
-    Operation nextOperation;
+    Collection<Operation> operations;
 }

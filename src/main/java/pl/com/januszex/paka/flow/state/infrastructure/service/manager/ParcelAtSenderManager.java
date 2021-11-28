@@ -2,14 +2,14 @@ package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
 import lombok.RequiredArgsConstructor;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
+import pl.com.januszex.paka.flow.parcel.domain.AssignToCourierOperation;
+import pl.com.januszex.paka.flow.parcel.domain.Operation;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
-import pl.com.januszex.paka.flow.state.domain.AssignToCourierOperation;
-import pl.com.januszex.paka.flow.state.domain.Operation;
 import pl.com.januszex.paka.flow.state.model.AtSender;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
-import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 
 import java.util.Objects;
 

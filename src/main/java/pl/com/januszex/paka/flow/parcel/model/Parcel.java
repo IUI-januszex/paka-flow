@@ -75,7 +75,7 @@ public class Parcel {
 
     @ElementCollection
     //@Column(name = "OBSERVER_ID")
-    public Set<String> observerIds;
+    private Set<String> observerIds;
 
     @JoinColumn(nullable = false, name = "DELIVERY_ADDRESS_ID")
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, optional = false)

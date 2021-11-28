@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.flow.state.domain;
+package pl.com.januszex.paka.flow.parcel.domain;
 
 import lombok.Getter;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.com.januszex.paka.flow.configuration.RestServiceUrls;
-import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;

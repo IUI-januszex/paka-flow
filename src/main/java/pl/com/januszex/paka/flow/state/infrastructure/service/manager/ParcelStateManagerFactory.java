@@ -6,7 +6,7 @@ import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
-import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 
 @Service
 public class ParcelStateManagerFactory {

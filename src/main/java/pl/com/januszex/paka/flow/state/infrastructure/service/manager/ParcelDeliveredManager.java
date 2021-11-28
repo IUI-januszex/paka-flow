@@ -5,10 +5,10 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelFeeNotPaid;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotPaid;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
+import pl.com.januszex.paka.flow.parcel.domain.NoOperation;
+import pl.com.januszex.paka.flow.parcel.domain.Operation;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
-import pl.com.januszex.paka.flow.state.domain.NoOperation;
-import pl.com.januszex.paka.flow.state.domain.Operation;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 

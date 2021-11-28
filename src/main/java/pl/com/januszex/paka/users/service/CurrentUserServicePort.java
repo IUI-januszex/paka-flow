@@ -4,4 +4,10 @@ public interface CurrentUserServicePort {
     boolean isAnonymous();
 
     String getCurrentJwt();
+
+    boolean isClient();
+
+    boolean isWorker();
+
+    boolean isCourier();
 }

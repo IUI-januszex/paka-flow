@@ -21,7 +21,7 @@ class ParcelRepositoryAdapter extends BaseRepositoryAdapter<Parcel> implements P
 
     @Override
     public Collection<Parcel> findParcelFormWarehouse(long warehouseId, WarehouseType warehouseType) {
-        return parcelJpaRepository.findParcelsInWarehouse(warehouseId, warehouseType);
+        return parcelJpaRepository.findParcelsInWarehouse(warehouseId, warehouseType.equals(WarehouseType.LOCAL) ? 0 : 1);
     }
 
     @Override

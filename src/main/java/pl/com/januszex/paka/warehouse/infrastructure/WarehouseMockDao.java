@@ -3,7 +3,7 @@ package pl.com.januszex.paka.warehouse.infrastructure;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;

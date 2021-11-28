@@ -19,7 +19,7 @@ import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.users.dao.UserDao;
 import pl.com.januszex.paka.users.dto.UserDto;
-import pl.com.januszex.paka.warehouse.dao.WarehouseDao;
+import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 

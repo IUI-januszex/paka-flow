@@ -10,7 +10,7 @@ spring:
     password: springsecret
     initialization-mode: always
   jpa:
-    show-sql: false
+    show-sql: true
     hibernate:
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
@@ -18,4 +18,7 @@ logging:
   level:
     org:
       hibernate:
+        type:
+          descriptor:
+            sql: trace
         SQL: DEBUG

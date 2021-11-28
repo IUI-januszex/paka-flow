@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.warehouse.dao;
+package pl.com.januszex.paka.warehouse.api.dao;
 
 import pl.com.januszex.paka.warehouse.domain.WarehouseDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;

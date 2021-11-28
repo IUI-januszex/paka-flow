@@ -23,7 +23,7 @@ public class ParcelController {
 
     @PostMapping
     public ResponseEntity<Object> registerParcel(@RequestBody @Valid RegisterParcelRequest request) {
-        Parcel parcel = parcelService.registerParcel("1", request);
+        Parcel parcel = parcelService.registerParcel("1", request); //TODO mock! change it!
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcel.getId()).toUri();
         return ResponseEntity.created(location).build();
