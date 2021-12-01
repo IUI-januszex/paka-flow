@@ -45,7 +45,7 @@ public class ParcelStateManagerFactory {
                         parcelCourierArrivalService,
                         dateTimeServicePort);
             case ASSIGNED_TO_COURIER:
-                return new ParcelAssignedToCourierManager(parcelStateService);
+                return new ParcelAssignedToCourierManager(parcelStateService, dateTimeService);
             case AT_WAREHOUSE:
                 return new ParcelAtWarehouseManager(warehouseDao, dateTimeService);
             case DELIVERED:

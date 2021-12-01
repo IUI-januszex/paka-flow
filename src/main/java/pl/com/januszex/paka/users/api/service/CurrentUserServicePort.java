@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.users.service;
+package pl.com.januszex.paka.users.api.service;
 
 public interface CurrentUserServicePort {
     boolean isAnonymous();

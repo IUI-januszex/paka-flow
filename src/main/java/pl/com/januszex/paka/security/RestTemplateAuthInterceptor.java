@@ -6,7 +6,7 @@ import org.springframework.http.HttpRequest;
 import org.springframework.http.client.ClientHttpRequestExecution;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
 import org.springframework.http.client.ClientHttpResponse;
-import pl.com.januszex.paka.users.service.CurrentUserServicePort;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 
 import java.io.IOException;
 

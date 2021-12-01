@@ -28,5 +28,4 @@ public class ParcelController {
                 .buildAndExpand(parcel.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
-
 }

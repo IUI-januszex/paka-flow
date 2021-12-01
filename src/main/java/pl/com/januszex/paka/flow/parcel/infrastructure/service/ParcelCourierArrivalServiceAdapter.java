@@ -7,6 +7,6 @@ import pl.com.januszex.paka.flow.parcel.api.service.ParcelCourierArrivalServiceP
 class ParcelCourierArrivalServiceAdapter implements ParcelCourierArrivalServicePort {
     @Override
     public int getDaysToArriveToSender() {
-        return 1;
+        return 0;
     }
 }

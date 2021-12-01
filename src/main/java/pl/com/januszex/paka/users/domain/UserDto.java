@@ -1,4 +1,4 @@
-package pl.com.januszex.paka.users.dto;
+package pl.com.januszex.paka.users.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

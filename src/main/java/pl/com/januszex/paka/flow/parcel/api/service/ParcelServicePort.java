@@ -23,7 +23,7 @@ public interface ParcelServicePort {
 
     Collection<Parcel> getParcelFormWarehouseToReturn(long warehouseId, WarehouseType warehouseType);
 
-    Collection<Parcel> getCourierParcel(String courierId);
+    Collection<Parcel> getCouriersParcels(String courierId);
 
     Collection<Parcel> getObservedParcelByUser(String userId);
 

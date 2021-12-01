@@ -6,6 +6,8 @@ import pl.com.januszex.paka.flow.state.api.repository.ParcelStateRepositoryPort;
 import pl.com.januszex.paka.flow.state.infrastructure.repository.jpa.ParcelStateJpaRepository;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 
+import java.util.Optional;
+
 @Repository
 public class ParcelStateRepositoryAdapter extends BaseRepositoryAdapter<ParcelState> implements ParcelStateRepositoryPort {
 
@@ -17,7 +19,7 @@ public class ParcelStateRepositoryAdapter extends BaseRepositoryAdapter<ParcelSt
     }
 
     @Override
-    public ParcelState getCurrentParcelState(long parcelId) {
+    public Optional<ParcelState> getCurrentParcelState(long parcelId) {
         return parcelStateJpaRepository.getCurrentState(parcelId);
     }
 }

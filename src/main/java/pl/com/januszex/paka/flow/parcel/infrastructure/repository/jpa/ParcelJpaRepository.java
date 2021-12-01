@@ -12,6 +12,12 @@ public interface ParcelJpaRepository extends JpaRepository<Parcel, Long> {
 
     @Query(value = "SELECT * FROM PARCEL p WHERE p.ID IN " +
             "(SELECT ps.PARCEL_ID FROM PARCEL_STATE ps " +
+            "WHERE ps.CURRENT AND ps.COURIER_ID = ?1)",
+            nativeQuery = true)
+    Collection<Parcel> findParcelsOfCourier(String courierId);
+
+    @Query(value = "SELECT * FROM PARCEL p WHERE p.ID IN " +
+            "(SELECT ps.PARCEL_ID FROM PARCEL_STATE ps " +
             "WHERE ps.CURRENT AND ps.WAREHOUSE_ID = ?1 AND WAREHOUSE_TYPE = ?2)",
             nativeQuery = true)
     Collection<Parcel> findParcelsInWarehouse(long warehouse, long warehouseType);

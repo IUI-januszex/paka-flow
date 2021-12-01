@@ -15,10 +15,12 @@ import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
+import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
-import pl.com.januszex.paka.users.dao.UserDao;
-import pl.com.januszex.paka.users.dto.UserDto;
+import pl.com.januszex.paka.flow.state.model.ParcelStateType;
+import pl.com.januszex.paka.users.api.dao.UserDao;
+import pl.com.januszex.paka.users.domain.UserDto;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
@@ -99,8 +101,8 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
-    public Collection<Parcel> getCourierParcel(String courierId) {
-        return null;
+    public Collection<Parcel> getCouriersParcels(String courierId) {
+        return parcelRepository.findParcelOfCourier(courierId);
     }
 
     @Override
@@ -124,8 +126,15 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
+    @Transactional
     public void assignParcelToCourier(long parcelId, String courierId, String logisticianId) {
-
+        //TODO verify if courier and logistician is working at the same warehouse and parcel is assigned to it
+        ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
+                .courierId(courierId)
+                .parcelId(parcelId)
+                .nextState(ParcelStateType.ASSIGNED_TO_COURIER)
+                .build();
+        parcelStateService.changeParcelState(request);
     }
 
     @Override

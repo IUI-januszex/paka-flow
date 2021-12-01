@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.base.DateTimeServicePort;
+import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.domain.Operation;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.ParcelStateNotFound;
@@ -19,6 +20,7 @@ import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -31,13 +33,16 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
     private final DateTimeServicePort dateTimeService;
     private final Map<ParcelStateType, ParcelStateManager> managers = new EnumMap<>(ParcelStateType.class);
 
+    private final EntityManager entityManager;
+
     @Override
     public ParcelState getCurrentParcelState(long parcelId) {
-        return parcelStateRepository.getCurrentParcelState(parcelId);
+        return parcelStateRepository.getCurrentParcelState(parcelId).orElseThrow(() -> new ParcelNotFound(parcelId));
     }
 
     @Override
     public ParcelState getById(long id) {
+        entityManager.detach(parcelStateRepository.getById(id).orElseThrow(() -> new ParcelStateNotFound(id)));
         return parcelStateRepository.getById(id).orElseThrow(() -> new ParcelStateNotFound(id));
     }
 
@@ -45,8 +50,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
     @Transactional
     public ParcelState changeParcelState(ChangeParcelStateRequest request) {
         ParcelState currentState = getCurrentParcelState(request.getParcelId());
-        ParcelStateManager stateManager = getManager(request.getNextState());
-        stateManager.validateChangeStateData(request);
+        validateChangeStateData(request);
         currentState.setCurrent(false);
         ParcelState newParcelState = parcelStateRepository.add(ParcelStateFactory.newInstance(request,
                 currentState,
@@ -96,7 +100,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
 
     @Override
     public AddressDto getDestinationAddress(ParcelState parcelState) {
-        return getManager(parcelState.getType()).getSourceAddress(parcelState);
+        return getManager(parcelState.getType()).getDestinationAddress(parcelState);
     }
 
     @Override

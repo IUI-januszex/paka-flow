@@ -5,7 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import pl.com.januszex.paka.security.CurrentUser;
-import pl.com.januszex.paka.users.service.CurrentUserServicePort;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 
 import java.util.Collection;
 import java.util.Objects;

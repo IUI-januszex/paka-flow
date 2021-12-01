@@ -1,8 +1,8 @@
-package pl.com.januszex.paka.users.dao;
+package pl.com.januszex.paka.users.api.dao;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import pl.com.januszex.paka.users.dto.UserDto;
+import pl.com.januszex.paka.users.domain.UserDto;
 
 import java.util.Optional;
 

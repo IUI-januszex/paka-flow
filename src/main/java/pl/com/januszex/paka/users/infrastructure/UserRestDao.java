@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import pl.com.januszex.paka.flow.configuration.RestServiceUrls;
-import pl.com.januszex.paka.users.dao.UserDao;
-import pl.com.januszex.paka.users.dto.UserDto;
+import pl.com.januszex.paka.users.api.dao.UserDao;
+import pl.com.januszex.paka.users.domain.UserDto;
 
 import java.net.URI;
 import java.util.Optional;

@@ -25,6 +25,11 @@ class ParcelRepositoryAdapter extends BaseRepositoryAdapter<Parcel> implements P
     }
 
     @Override
+    public Collection<Parcel> findParcelOfCourier(String courierId) {
+        return parcelJpaRepository.findParcelsOfCourier(courierId);
+    }
+
+    @Override
     public Collection<Parcel> findObservedParcel(String userId) {
         return parcelJpaRepository.findAllByObserverIdsContains(userId);
     }

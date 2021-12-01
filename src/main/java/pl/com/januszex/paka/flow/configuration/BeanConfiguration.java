@@ -11,7 +11,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import pl.com.januszex.paka.security.RestTemplateAuthInterceptor;
-import pl.com.januszex.paka.users.service.CurrentUserServicePort;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 
 import java.security.SecureRandom;
 import java.sql.SQLException;

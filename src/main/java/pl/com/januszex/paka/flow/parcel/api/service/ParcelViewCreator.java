@@ -8,7 +8,7 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
-import pl.com.januszex.paka.users.service.CurrentUserServicePort;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 
 import java.util.ArrayList;
 import java.util.Collection;

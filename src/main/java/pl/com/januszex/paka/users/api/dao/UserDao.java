@@ -1,6 +1,6 @@
-package pl.com.januszex.paka.users.dao;
+package pl.com.januszex.paka.users.api.dao;
 
-import pl.com.januszex.paka.users.dto.UserDto;
+import pl.com.januszex.paka.users.domain.UserDto;
 
 import java.util.Optional;
 
