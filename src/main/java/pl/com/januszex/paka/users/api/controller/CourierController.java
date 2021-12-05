@@ -2,6 +2,7 @@ package pl.com.januszex.paka.users.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ public class CourierController {
     private final ParcelViewCreator parcelViewCreator;
 
     @GetMapping(path = "/parcels")
+    @PreAuthorize("hasAnyRole('Courier', 'Admin')")
     public ResponseEntity<CourierParcelsResponse> getCouriersParcels(@PathVariable("id") String id) {
         return ResponseEntity.ok()
                 .body(CourierParcelsResponse.of(parcelService.getCouriersParcels(id).stream()

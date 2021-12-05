@@ -4,6 +4,8 @@ spring:
     port: 5672
     username: paka
     password: paka
+  jpa:
+    defer-datasource-initialization: true
 
   profiles:
     active: dev
@@ -13,6 +15,10 @@ server:
   servlet:
     context-path: '/api'
 services:
+  security:
+    jwtSecret: 'rRYaQlIsv4TiaBuqVlCurRYaQlIsv4TiaBuqVlCu'
+    audience: 'Test'
+    issuer: 'Test'
   notificationQueue: notifications
   rest:
     urls:

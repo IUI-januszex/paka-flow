@@ -2,6 +2,7 @@ package pl.com.januszex.paka.warehouse.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,11 +25,13 @@ public class WarehouseController {
     private final ParcelViewCreator viewCreator;
 
     @GetMapping(path = "global/{id}")
+    @PreAuthorize("hasAnyRole('Logistician', 'Admin')")
     public ResponseEntity<WarehouseParcelsResponse> getParcelsFromGlobal(@PathVariable long id) {
         return prepareParcelResponse(id, WarehouseType.GLOBAL);
     }
 
     @GetMapping(path = "local/{id}")
+    @PreAuthorize("hasAnyRole('Logistician', 'Admin')")
     public ResponseEntity<WarehouseParcelsResponse> getParcelsFromLocal(@PathVariable long id) {
         return prepareParcelResponse(id, WarehouseType.LOCAL);
     }
