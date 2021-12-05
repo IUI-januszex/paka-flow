@@ -19,6 +19,7 @@ import java.util.List;
 public class ParcelViewCreator {
 
     private final ParcelStateServicePort parcelStateService;
+    private final ParcelServicePort parcelService;
     private final CurrentUserServicePort currentUserService;
 
     public ParcelDetailView mapWithDetails(Parcel parcel) {
@@ -34,6 +35,7 @@ public class ParcelViewCreator {
                 .sourceAddress(parcelStateService.getSourceAddress(currentState))
                 .destinationAddress(parcelStateService.getDestinationAddress(currentState))
                 .operations(getOperations(parcel, currentState))
+                .moveable(parcelService.isMoveable(parcel))
                 .build();
 
     }

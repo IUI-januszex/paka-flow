@@ -6,11 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.request.AddressRequest;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
+import pl.com.januszex.paka.flow.parcel.api.exception.IllegalParcelStateException;
+import pl.com.januszex.paka.flow.parcel.api.exception.InvalidMoveDate;
+import pl.com.januszex.paka.flow.parcel.api.exception.InvalidPinException;
 import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
+import pl.com.januszex.paka.flow.parcel.api.service.ParcelCourierArrivalServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
@@ -20,7 +24,6 @@ import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.users.api.dao.UserDao;
-import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.users.domain.UserDto;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
@@ -41,7 +44,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final ParcelTypeServicePort parcelTypeService;
     private final WarehouseDao warehouseDao;
     private final UserDao userDao;
-    private final CurrentUserServicePort currentUserService;
+    private final ParcelCourierArrivalServicePort parcelCourierArrivalService;
 
     @Override
     public Parcel getById(long id) {
@@ -152,8 +155,32 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
+    @Transactional
     public void moveCourierArrivalDate(long parcelId, MoveCourierArrivalDateRequest request) {
+        Parcel parcel = getById(parcelId);
+        if (!isMoveable(parcel)) {
+            throw new IllegalParcelStateException(parcelId);
+        }
+        if (!Arrays.equals(request.getPin(), parcel.getPin())) {
+            throw new InvalidPinException();
+        }
+        if (!parcelCourierArrivalService.isMoveDateValid(request.getNewDate(), parcel.getExpectedCourierArrivalDate())) {
+            throw new InvalidMoveDate();
+        }
+        parcel.setExpectedCourierArrivalDate(request.getNewDate());
+        parcel.setDateMoved(true);
+    }
 
+    @Override
+    public boolean isMoveable(Parcel parcel) {
+        if (parcel.isDateMoved()) {
+            return false;
+        }
+        AddressDto deliveryAddress = AddressDto.of(parcel.getDeliveryAddress());
+        ParcelState currentState = parcelStateService.getCurrentParcelState(parcel.getId());
+        return !((currentState.getType().equals(ParcelStateType.AT_COURIER) ||
+                currentState.getType().equals(ParcelStateType.ASSIGNED_TO_COURIER)) &&
+                deliveryAddress.equals(parcelStateService.getDestinationAddress(currentState)));
     }
 
     private Address mapAddressRequest(AddressRequest request) {

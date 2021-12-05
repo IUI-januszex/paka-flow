@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.com.januszex.paka.flow.parcel.api.request.AssignParcelToCourierRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.security.CurrentUser;
 
@@ -31,6 +32,13 @@ public class ParcelOperationController {
     public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,
                                                CurrentUser currentUser) {
         parcelService.pickupParcel(id, currentUser.getPrincipal());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(path = "move-date")
+    public ResponseEntity<Object> moveDate(@PathVariable("id") long id,
+                                           @RequestBody @Valid MoveCourierArrivalDateRequest request) {
+        parcelService.moveCourierArrivalDate(id, request);
         return ResponseEntity.noContent().build();
     }
 

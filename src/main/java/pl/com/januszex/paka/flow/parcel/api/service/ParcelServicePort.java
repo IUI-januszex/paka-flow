@@ -38,4 +38,6 @@ public interface ParcelServicePort {
     void markParcelToReturn(long parcelId);
 
     void moveCourierArrivalDate(long parcelId, MoveCourierArrivalDateRequest request);
+
+    boolean isMoveable(Parcel parcel);
 }

@@ -20,4 +20,6 @@ public class ParcelBriefView {
     boolean feePaid;
     @JsonProperty("isParcelPaid")
     boolean isParcelPaid;
+    @JsonProperty("isMoveable")
+    boolean moveable;
 }
