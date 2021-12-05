@@ -10,4 +10,6 @@ public interface CurrentUserServicePort {
     boolean isWorker();
 
     boolean isCourier();
+
+    boolean hasId(String id);
 }

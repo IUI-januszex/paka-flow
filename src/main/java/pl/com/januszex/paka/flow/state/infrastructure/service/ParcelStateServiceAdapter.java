@@ -42,7 +42,6 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
 
     @Override
     public ParcelState getById(long id) {
-        entityManager.detach(parcelStateRepository.getById(id).orElseThrow(() -> new ParcelStateNotFound(id)));
         return parcelStateRepository.getById(id).orElseThrow(() -> new ParcelStateNotFound(id));
     }
 

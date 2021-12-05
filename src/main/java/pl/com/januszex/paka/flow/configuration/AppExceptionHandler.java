@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver;
 import pl.com.januszex.paka.flow.base.exception.BusinessLogicException;
 import pl.com.januszex.paka.flow.base.exception.NotFoundException;
+import pl.com.januszex.paka.security.AuthorizationException;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -65,6 +66,13 @@ public class AppExceptionHandler extends DefaultHandlerExceptionResolver {
         return new ResponseEntity<>(new ErrorResponse(LocalDateTime.now(),
                 errorMessage),
                 HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AuthorizationException.class)
+    public ResponseEntity<ErrorResponse> authorizationException(AuthorizationException ex) {
+        return new ResponseEntity<>(new ErrorResponse(LocalDateTime.now(),
+                ex.getMessage()),
+                HttpStatus.FORBIDDEN);
     }
 
     private String getFieldErrorMessages(MethodArgumentNotValidException ex) {

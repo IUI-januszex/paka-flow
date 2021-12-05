@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Data
-class AtCourier extends ParcelState {
+public class AtCourier extends ParcelState {
 
     private String courierId;
 

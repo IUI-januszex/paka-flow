@@ -67,7 +67,7 @@ class ParcelAssignedToCourierManager implements ParcelStateManager {
 
 
     private ParcelState getPreviousParcelState(ParcelState parcelState) {
-        return parcelStateService.getById(parcelState.getPreviousState().getId());
+        return parcelState.getPreviousState();
     }
 
     private boolean isArrivalToCourier(ParcelState currentSate) {

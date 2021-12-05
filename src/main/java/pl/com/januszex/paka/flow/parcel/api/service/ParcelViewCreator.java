@@ -41,6 +41,7 @@ public class ParcelViewCreator {
     private Collection<Operation> getOperations(Parcel parcel, ParcelState currentState) {
         List<Operation> operations = new ArrayList<>();
         Operation nextOperation = parcelStateService.getNextOperation(currentState);
+        operations.add(nextOperation);
         if (!nextOperation.getOperationType().equals(OperationType.NO_OPERATION) &&
                 currentUserService.isWorker()) {
             operations.add(nextOperation);
@@ -50,8 +51,9 @@ public class ParcelViewCreator {
             operations.add(new EditOperation());
             operations.add(new DeleteOperation());
         }
-        if (currentUserService.isCourier()) {
-            if (!parcel.isFeePaid() && parcel.isFeePaid()) {
+        if (currentUserService.isCourier() &&
+                nextOperation.getOperationType().equals(OperationType.DELIVER_TO_CLIENT)) {
+            if (!parcel.isFeePaid() && parcel.isFeePayable()) {
                 operations.add(new PayFeeOperation(parcel.getParcelFee()));
             }
             if (!parcel.isPaid() && parcel.isParcelPayable()) {

@@ -47,6 +47,14 @@ public class NotificationData {
                 parcel.getReceiverDetails());
     }
 
+    public static NotificationData getCourierWillArriveTodayNotification(Parcel parcel) {
+        return new NotificationData(parcel.getSenderDetails(),
+                parcel.getId(),
+                NotificationType.PARCEL_DELIVERED,
+                parcel.getSenderDetails(),
+                parcel.getReceiverDetails());
+    }
+
     public static NotificationData getDeliveredNotificationForReceiver(Parcel parcel) {
         return new NotificationData(parcel.getReceiverEmailAddress(),
                 parcel.getId(),

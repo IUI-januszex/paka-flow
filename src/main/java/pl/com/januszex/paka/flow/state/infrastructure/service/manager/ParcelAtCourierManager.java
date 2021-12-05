@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.state.infrastructure.service.manager;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AuthorizationServiceException;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.domain.DeliverToClient;
 import pl.com.januszex.paka.flow.parcel.domain.DeliverToWarehouse;
@@ -11,9 +12,13 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.CourierNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.flow.state.model.AssignedToCourier;
 import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
+import pl.com.januszex.paka.notification.api.NotificationServicePort;
+import pl.com.januszex.paka.notification.domain.NotificationData;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
@@ -29,6 +34,10 @@ class ParcelAtCourierManager implements ParcelStateManager {
 
     private final WarehouseDao warehouseDao;
 
+    private final NotificationServicePort notificationService;
+
+    private final CurrentUserServicePort currentUserService;
+
     @Override
     public void validateChangeStateData(ChangeParcelStateRequest request) {
         if (!request.getNextState().equals(ParcelStateType.AT_COURIER)) {
@@ -37,12 +46,20 @@ class ParcelAtCourierManager implements ParcelStateManager {
         if (Objects.isNull(request.getCourierId())) {
             throw new CourierNotProvidedException();
         }
+        if (!currentUserService.hasId(request.getCourierId())) {
+            throw new AuthorizationServiceException("Cannot pickup parcel as different user");
+        }
+        AssignedToCourier currentParcelState = (AssignedToCourier) parcelStateService.getCurrentParcelState(request.getParcelId());
+        if (!currentParcelState.getCourierId().equals(request.getCourierId())) {
+            throw new AuthorizationServiceException(String.format("Parcel with id %s was not assigned to you", request.getParcelId()));
+
+        }
     }
 
     @Override
     public void doPostChangeOperations(ParcelState newParcelState) {
         if (getNextOperation(newParcelState).getOperationType() == OperationType.DELIVER_TO_CLIENT) {
-            log.info("Send notification that courier will arrive today");
+            notificationService.sendNotification(NotificationData.getCourierWillArriveTodayNotification(newParcelState.getParcel()));
         }
     }
 
@@ -103,6 +120,6 @@ class ParcelAtCourierManager implements ParcelStateManager {
 
 
     private ParcelState getPreviousParcelState(ParcelState parcelState) {
-        return parcelStateService.getById(parcelState.getPreviousState().getId());
+        return parcelState.getPreviousState();
     }
 }

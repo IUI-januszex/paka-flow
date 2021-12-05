@@ -40,6 +40,15 @@ class CurrentUserServiceAdapter implements CurrentUserServicePort {
         return role != null && role.equals("ROLE_Courier");
     }
 
+    @Override
+    public boolean hasId(String id) {
+        CurrentUser currentUser = getAuthentication();
+        if (currentUser == null) {
+            return false;
+        }
+        return currentUser.getPrincipal().equals(id);
+    }
+
     private CurrentUser getAuthentication() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof CurrentUser) {

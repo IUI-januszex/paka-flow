@@ -29,7 +29,7 @@ public abstract class ParcelState {
     @JoinColumn(nullable = false, name = "parcelId")
     private Parcel parcel;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = EAGER)
     @JoinColumn(name = "previousStateId")
     private ParcelState previousState;
 

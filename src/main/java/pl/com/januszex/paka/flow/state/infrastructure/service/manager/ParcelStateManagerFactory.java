@@ -8,6 +8,7 @@ import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.notification.api.NotificationServicePort;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 
 @Service
@@ -20,6 +21,7 @@ public class ParcelStateManagerFactory {
     private final NotificationServicePort notificationService;
     private final ParcelCourierArrivalServicePort parcelCourierArrivalService;
     private final DateTimeServicePort dateTimeServicePort;
+    private final CurrentUserServicePort currentUserService;
 
     public ParcelStateManagerFactory(WarehouseDao warehouseDao,
                                      @Lazy ParcelStateServicePort parcelStateService,
@@ -27,7 +29,8 @@ public class ParcelStateManagerFactory {
                                      DateTimeServicePort dateTimeService,
                                      NotificationServicePort notificationService,
                                      ParcelCourierArrivalServicePort parcelCourierArrivalService,
-                                     DateTimeServicePort dateTimeServicePort) {
+                                     DateTimeServicePort dateTimeServicePort,
+                                     CurrentUserServicePort currentUserService) {
         this.warehouseDao = warehouseDao;
         this.parcelStateService = parcelStateService;
         this.parcelService = parcelService;
@@ -35,6 +38,7 @@ public class ParcelStateManagerFactory {
         this.notificationService = notificationService;
         this.parcelCourierArrivalService = parcelCourierArrivalService;
         this.dateTimeServicePort = dateTimeServicePort;
+        this.currentUserService = currentUserService;
     }
 
     public ParcelStateManager getInstance(ParcelStateType parcelStateType) {
@@ -53,7 +57,7 @@ public class ParcelStateManagerFactory {
             case RETURNED:
                 return new ParcelReturnedManager(parcelService);
             case AT_COURIER:
-                return new ParcelAtCourierManager(parcelStateService, warehouseDao);
+                return new ParcelAtCourierManager(parcelStateService, warehouseDao, notificationService, currentUserService);
         }
         throw new IllegalStateException("Unsupported parcel state");
     }

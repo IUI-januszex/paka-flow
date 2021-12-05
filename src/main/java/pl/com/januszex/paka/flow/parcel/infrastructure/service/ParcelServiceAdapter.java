@@ -20,6 +20,7 @@ import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.users.api.dao.UserDao;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.users.domain.UserDto;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
@@ -40,6 +41,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final ParcelTypeServicePort parcelTypeService;
     private final WarehouseDao warehouseDao;
     private final UserDao userDao;
+    private final CurrentUserServicePort currentUserService;
 
     @Override
     public Parcel getById(long id) {
@@ -111,8 +113,15 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
+    @Transactional
     public void pickupParcel(long parcelId, String courierId) {
 
+        ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
+                .nextState(ParcelStateType.AT_COURIER)
+                .parcelId(parcelId)
+                .courierId(courierId)
+                .build();
+        parcelStateService.changeParcelState(request);
     }
 
     @Override
