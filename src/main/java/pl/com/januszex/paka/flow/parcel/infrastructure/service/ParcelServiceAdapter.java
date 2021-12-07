@@ -172,6 +172,20 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
+    @Transactional
+    public void setParcelPaid(long parcelId, boolean paid) {
+        Parcel parcel = getById(parcelId);
+        parcel.setPaid(paid);
+    }
+
+    @Override
+    @Transactional
+    public void setParcelFeePaid(long parcelId, boolean paid) {
+        Parcel parcel = getById(parcelId);
+        parcel.setFeePaid(paid);
+    }
+
+    @Override
     public boolean isMoveable(Parcel parcel) {
         if (parcel.isDateMoved()) {
             return false;

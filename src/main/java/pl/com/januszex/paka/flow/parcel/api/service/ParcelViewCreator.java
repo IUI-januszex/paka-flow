@@ -59,8 +59,13 @@ public class ParcelViewCreator {
                 operations.add(new PayFeeOperation(parcel.getParcelFee()));
             }
             if (!parcel.isPaid() && parcel.isParcelPayable()) {
-                operations.add(new PayParcelOperation(parcel.getParcelPrice()));
+                operations.add(new PayParcelRequest(parcel.getParcelPrice()));
             }
+        }
+        if (currentUserService.isCourier() &&
+                currentState.getPreviousState().getType().equals(ParcelStateType.AT_SENDER) &&
+                (!parcel.isFeePaid() && parcel.isFeePayable())) {
+            operations.add(new PayFeeOperation(parcel.getParcelFee()));
         }
         return operations;
     }

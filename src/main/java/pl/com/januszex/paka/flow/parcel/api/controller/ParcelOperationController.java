@@ -6,6 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.com.januszex.paka.flow.parcel.api.request.AssignParcelToCourierRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelPaidRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.security.CurrentUser;
 
@@ -39,6 +40,20 @@ public class ParcelOperationController {
     public ResponseEntity<Object> moveDate(@PathVariable("id") long id,
                                            @RequestBody @Valid MoveCourierArrivalDateRequest request) {
         parcelService.moveCourierArrivalDate(id, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "pay")
+    public ResponseEntity<Object> payParcel(@PathVariable("id") long id,
+                                            @RequestBody @Valid ParcelPaidRequest request) {
+        parcelService.setParcelPaid(id, request.isPaid());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping(path = "pay-fee")
+    public ResponseEntity<Object> payParcelFee(@PathVariable("id") long id,
+                                               @RequestBody @Valid ParcelPaidRequest request) {
+        parcelService.setParcelFeePaid(id, request.isPaid());
         return ResponseEntity.noContent().build();
     }
 

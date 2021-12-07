@@ -39,5 +39,9 @@ public interface ParcelServicePort {
 
     void moveCourierArrivalDate(long parcelId, MoveCourierArrivalDateRequest request);
 
+    void setParcelPaid(long parcelId, boolean paid);
+
+    void setParcelFeePaid(long parcelId, boolean paid);
+
     boolean isMoveable(Parcel parcel);
 }
