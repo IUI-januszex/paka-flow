@@ -66,11 +66,6 @@ class ParcelTypeServiceAdapter implements ParcelTypeServicePort {
         parcelTypeRepository.update(model);
     }
 
-    @Override
-    public int getAssignedParcelCount(long id) {
-        return getById(id).getParcels().size();
-    }
-
     private void convertRequestToModel(ParcelTypeRequest request, ParcelType model) {
         model.setName(request.getName());
         model.setDescription(request.getDescription());

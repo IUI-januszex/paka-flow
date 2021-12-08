@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeChangeActivatedRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.ParcelTypeRequest;
-import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeAssignedParcelCountResponse;
+import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeAdminResponse;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeResponse;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
@@ -28,11 +28,11 @@ public class ParcelTypeController {
 
     @PostMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<ParcelTypeResponse> add(@RequestBody @Valid ParcelTypeRequest request) {
+    public ResponseEntity<ParcelTypeAdminResponse> add(@RequestBody @Valid ParcelTypeRequest request) {
         ParcelType parcelType = parcelTypeService.add(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcelType.getId()).toUri();
-        return ResponseEntity.created(location).body(ParcelTypeResponse.of(parcelType));
+        return ResponseEntity.created(location).body(ParcelTypeAdminResponse.of(parcelType));
     }
 
     @PutMapping(path = "/{id}")
@@ -44,9 +44,9 @@ public class ParcelTypeController {
 
     @GetMapping
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Collection<ParcelTypeResponse>> getAll() {
+    public ResponseEntity<Collection<ParcelTypeAdminResponse>> getAll() {
         return new ResponseEntity<>(parcelTypeService.getAll().stream()
-                .map(ParcelTypeResponse::of)
+                .map(ParcelTypeAdminResponse::of)
                 .collect(Collectors.toList()), HttpStatus.OK);
     }
 
@@ -76,12 +76,5 @@ public class ParcelTypeController {
                                                      @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
         parcelTypeService.changeActiveState(id, request);
         return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping(path = "/{id}/parcel-count")
-    @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<ParcelTypeAssignedParcelCountResponse> getAssignedParcelCount(@PathVariable long id) {
-        return new ResponseEntity<>(new ParcelTypeAssignedParcelCountResponse(parcelTypeService.getAssignedParcelCount(id)),
-                HttpStatus.OK);
     }
 }

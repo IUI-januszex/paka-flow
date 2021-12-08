@@ -1,21 +1,25 @@
 package pl.com.januszex.paka.flow.parcel.api.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 
 import java.math.BigDecimal;
 
-@Value
-@Builder
+@AllArgsConstructor
+@Getter
+@EqualsAndHashCode
+@SuperBuilder
 public class ParcelTypeResponse {
-    long id;
-    String name;
-    String description;
-    BigDecimal price;
+    private final long id;
+    private final String name;
+    private final String description;
+    private final BigDecimal price;
     @JsonProperty(value = "isActive")
-    boolean active;
+    private final boolean active;
 
     public static ParcelTypeResponse of(ParcelType parcelType) {
         return ParcelTypeResponse.builder()

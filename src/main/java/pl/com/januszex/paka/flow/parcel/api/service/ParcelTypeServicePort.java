@@ -21,5 +21,4 @@ public interface ParcelTypeServicePort {
 
     void changeActiveState(long id, ParcelTypeChangeActivatedRequest request);
 
-    int getAssignedParcelCount(long id);
 }
