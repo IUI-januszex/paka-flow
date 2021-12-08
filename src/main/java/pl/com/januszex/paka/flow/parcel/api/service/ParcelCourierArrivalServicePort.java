@@ -6,6 +6,8 @@ public interface ParcelCourierArrivalServicePort {
 
     int getDaysToArriveToSender();
 
+    int getDaysToReceiver();
+
     boolean isMoveDateValid(LocalDate newDate, LocalDate oldDate);
 
 }

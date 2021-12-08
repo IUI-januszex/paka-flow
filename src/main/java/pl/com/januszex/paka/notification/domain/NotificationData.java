@@ -50,7 +50,7 @@ public class NotificationData {
     public static NotificationData getCourierWillArriveTodayNotification(Parcel parcel) {
         return new NotificationData(parcel.getSenderDetails(),
                 parcel.getId(),
-                NotificationType.PARCEL_DELIVERED,
+                NotificationType.COURIER_WILL_ARRIVE_TODAY,
                 parcel.getSenderDetails(),
                 parcel.getReceiverDetails());
     }

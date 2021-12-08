@@ -118,7 +118,6 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     @Override
     @Transactional
     public void pickupParcel(long parcelId, String courierId) {
-
         ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
                 .nextState(ParcelStateType.AT_COURIER)
                 .parcelId(parcelId)
@@ -128,7 +127,15 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
-    public void deliverParcelsAtWarehouse(String courierId, DeliverToWarehouseRequest deliverToWarehouseRequest) {
+    @Transactional
+    public void deliverParcelAtWarehouse(long parcelId, DeliverToWarehouseRequest deliverToWarehouseRequest) {
+        ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
+                .nextState(ParcelStateType.AT_WAREHOUSE)
+                .parcelId(parcelId)
+                .warehouseId(deliverToWarehouseRequest.getWarehouseId())
+                .warehouseType(deliverToWarehouseRequest.getWarehouseType())
+                .build();
+        parcelStateService.changeParcelState(request);
 
     }
 
@@ -147,11 +154,6 @@ public class ParcelServiceAdapter implements ParcelServicePort {
                 .nextState(ParcelStateType.ASSIGNED_TO_COURIER)
                 .build();
         parcelStateService.changeParcelState(request);
-    }
-
-    @Override
-    public void markParcelToReturn(long parcelId) {
-
     }
 
     @Override

@@ -15,6 +15,11 @@ class ParcelCourierArrivalServiceAdapter implements ParcelCourierArrivalServiceP
     }
 
     @Override
+    public int getDaysToReceiver() {
+        return 0;
+    }
+
+    @Override
     public boolean isMoveDateValid(LocalDate newDate, LocalDate oldDate) {
         DayOfWeek dayOfWeek = newDate.getDayOfWeek();
         if (dayOfWeek.equals(DayOfWeek.SATURDAY) || dayOfWeek.equals(DayOfWeek.SUNDAY)) {

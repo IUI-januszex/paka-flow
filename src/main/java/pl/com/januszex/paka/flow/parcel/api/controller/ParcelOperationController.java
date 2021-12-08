@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.com.januszex.paka.flow.parcel.api.request.AssignParcelToCourierRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.ParcelPaidRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
@@ -33,6 +34,14 @@ public class ParcelOperationController {
     public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,
                                                CurrentUser currentUser) {
         parcelService.pickupParcel(id, currentUser.getPrincipal());
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping(path = "deliver-to-warehouse")
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,
+                                               @RequestBody @Valid DeliverToWarehouseRequest request) {
+        parcelService.deliverParcelAtWarehouse(id, request);
         return ResponseEntity.noContent().build();
     }
 

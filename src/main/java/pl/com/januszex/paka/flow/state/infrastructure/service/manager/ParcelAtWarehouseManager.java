@@ -4,19 +4,28 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.base.DateTimeServicePort;
+import pl.com.januszex.paka.flow.parcel.api.service.ParcelCourierArrivalServicePort;
 import pl.com.januszex.paka.flow.parcel.domain.AssignToCourierOperation;
 import pl.com.januszex.paka.flow.parcel.domain.NoOperation;
 import pl.com.januszex.paka.flow.parcel.domain.Operation;
+import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.exception.WarehouseNotProvidedException;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
+import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.flow.state.model.AtCourier;
 import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
+import pl.com.januszex.paka.notification.api.NotificationServicePort;
+import pl.com.januszex.paka.notification.domain.NotificationWithPinData;
+import pl.com.januszex.paka.security.AuthorizationException;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
@@ -26,6 +35,10 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
 
     private final WarehouseDao warehouseDao;
     private final DateTimeServicePort dateTimeService;
+    private final CurrentUserServicePort currentUserService;
+    private final ParcelStateServicePort parcelStateService;
+    private final NotificationServicePort notificationService;
+    private final ParcelCourierArrivalServicePort parcelCourierArrivalService;
 
     @Override
     public void validateChangeStateData(ChangeParcelStateRequest request) {
@@ -35,6 +48,12 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
         if (Objects.isNull(request.getWarehouseId()) || Objects.isNull(request.getWarehouseType())) {
             throw new WarehouseNotProvidedException();
         }
+
+        AtCourier atCourier = (AtCourier) parcelStateService.getCurrentParcelState(request.getParcelId());
+
+        if (!currentUserService.hasId(atCourier.getCourierId())) {
+            throw new AuthorizationException(String.format("Parcel %s is not at current courier", request.getParcelId()));
+        }
     }
 
     @Override
@@ -43,8 +62,10 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
         AtWarehouse atWarehouse = cast(newParcelState);
         if (atWarehouse.getWarehouseType() == WarehouseType.LOCAL &&
                 atWarehouse.getId().equals(warehouseTrack.getSourceWarehouseId())) {
-            log.info("Update courier arrival");
-            log.info("Send notification to sender when courier will arrive");
+            Parcel parcel = newParcelState.getParcel();
+            LocalDate newDate = dateTimeService.addWorkdays(parcelCourierArrivalService.getDaysToArriveToSender());
+            parcel.setExpectedCourierArrivalDate(newDate);
+            notificationService.sendNotification(NotificationWithPinData.getCourierWillArrive(parcel));
         }
     }
 

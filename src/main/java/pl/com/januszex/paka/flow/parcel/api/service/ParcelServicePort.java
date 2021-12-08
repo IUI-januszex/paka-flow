@@ -29,13 +29,11 @@ public interface ParcelServicePort {
 
     void pickupParcel(long parcelId, String courierId);
 
-    void deliverParcelsAtWarehouse(String courierId, DeliverToWarehouseRequest deliverToWarehouseRequest);
+    void deliverParcelAtWarehouse(long parcelId, DeliverToWarehouseRequest deliverToWarehouseRequest);
 
     void deliverParcelToClient(long parcelId, String courierId);
 
     void assignParcelToCourier(long parcelId, String courierId, String logisticianId);
-
-    void markParcelToReturn(long parcelId);
 
     void moveCourierArrivalDate(long parcelId, MoveCourierArrivalDateRequest request);
 
