@@ -45,6 +45,14 @@ public class ParcelOperationController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping(path = "deliver-to-client")
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Object> deliverToClient(@PathVariable("id") long id,
+                                                  CurrentUser currentUser) {
+        parcelService.deliverParcelToClient(id, currentUser.getPrincipal());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping(path = "move-date")
     public ResponseEntity<Object> moveDate(@PathVariable("id") long id,
                                            @RequestBody @Valid MoveCourierArrivalDateRequest request) {

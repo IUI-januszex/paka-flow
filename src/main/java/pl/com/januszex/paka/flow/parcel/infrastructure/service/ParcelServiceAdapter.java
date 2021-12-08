@@ -141,7 +141,12 @@ public class ParcelServiceAdapter implements ParcelServicePort {
 
     @Override
     public void deliverParcelToClient(long parcelId, String courierId) {
-
+        ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
+                .nextState(ParcelStateType.DELIVERED)
+                .parcelId(parcelId)
+                .courierId(courierId)
+                .build();
+        parcelStateService.changeParcelState(request);
     }
 
     @Override

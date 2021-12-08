@@ -51,13 +51,24 @@ public class ParcelStateManagerFactory {
             case ASSIGNED_TO_COURIER:
                 return new ParcelAssignedToCourierManager(parcelStateService, dateTimeService);
             case AT_WAREHOUSE:
-                return new ParcelAtWarehouseManager(warehouseDao, dateTimeService);
+                return new ParcelAtWarehouseManager(warehouseDao,
+                        dateTimeService,
+                        currentUserService,
+                        parcelStateService,
+                        notificationService,
+                        parcelCourierArrivalService);
             case DELIVERED:
-                return new ParcelDeliveredManager(parcelService);
+                return new ParcelDeliveredManager(parcelService,
+                        parcelStateService,
+                        currentUserService,
+                        notificationService);
             case RETURNED:
                 return new ParcelReturnedManager(parcelService);
             case AT_COURIER:
-                return new ParcelAtCourierManager(parcelStateService, warehouseDao, notificationService, currentUserService);
+                return new ParcelAtCourierManager(parcelStateService,
+                        warehouseDao,
+                        notificationService,
+                        currentUserService);
         }
         throw new IllegalStateException("Unsupported parcel state");
     }
