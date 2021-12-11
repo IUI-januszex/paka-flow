@@ -74,4 +74,13 @@ public class ParcelOperationController {
         return ResponseEntity.noContent().build();
     }
 
+
+    @PostMapping(path = "deliver-to-client")
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Object> addDeliveryAttempt(@PathVariable("id") long id,
+                                                  CurrentUser currentUser) {
+        parcelService.addDeliveryAttempt(id, currentUser.getPrincipal());
+        return ResponseEntity.noContent().build();
+    }
+
 }

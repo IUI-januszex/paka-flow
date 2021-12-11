@@ -3,11 +3,9 @@ package pl.com.januszex.paka.flow.parcel.api.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import pl.com.januszex.paka.flow.delivery.api.DeliveryAttemptResponse;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
@@ -15,6 +13,8 @@ import pl.com.januszex.paka.security.CurrentUser;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,5 +31,12 @@ public class ParcelController {
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcel.getId()).toUri();
         return ResponseEntity.created(location).build();
+    }
+    
+    @GetMapping(path = "/{id}/delivery-attempt")
+    public ResponseEntity<Collection<DeliveryAttemptResponse>> getDeliveryAttempts(@PathVariable("id") long id){
+        return ResponseEntity.ok(
+                parcelService.getParcelDeliveryAttempts(id).stream().map(DeliveryAttemptResponse::of).collect(Collectors.toList())
+        );
     }
 }

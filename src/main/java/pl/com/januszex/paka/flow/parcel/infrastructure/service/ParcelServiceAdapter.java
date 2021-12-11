@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.com.januszex.paka.flow.address.api.request.AddressRequest;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
+import pl.com.januszex.paka.flow.base.DateTimeServicePort;
+import pl.com.januszex.paka.flow.delivery.model.DeliveryAttempt;
 import pl.com.januszex.paka.flow.parcel.api.exception.IllegalParcelStateException;
 import pl.com.januszex.paka.flow.parcel.api.exception.InvalidMoveDate;
 import pl.com.januszex.paka.flow.parcel.api.exception.InvalidPinException;
@@ -36,7 +38,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class ParcelServiceAdapter implements ParcelServicePort {
+class ParcelServiceAdapter implements ParcelServicePort {
 
     private final ParcelRepositoryPort parcelRepository;
     private final ParcelStateServicePort parcelStateService;
@@ -45,6 +47,7 @@ public class ParcelServiceAdapter implements ParcelServicePort {
     private final WarehouseDao warehouseDao;
     private final UserDao userDao;
     private final ParcelCourierArrivalServicePort parcelCourierArrivalService;
+    private final DateTimeServicePort dateTimeService;
 
     @Override
     public Parcel getById(long id) {
@@ -202,6 +205,25 @@ public class ParcelServiceAdapter implements ParcelServicePort {
         return !((currentState.getType().equals(ParcelStateType.AT_COURIER) ||
                 currentState.getType().equals(ParcelStateType.ASSIGNED_TO_COURIER)) &&
                 deliveryAddress.equals(parcelStateService.getDestinationAddress(currentState)));
+    }
+
+    @Override
+    @Transactional
+    public void addDeliveryAttempt(long parcelId, String courierId) {
+        Parcel parcel = getById(parcelId);
+        if(!parcelStateService.getCurrentParcelState(parcelId).getType().equals(ParcelStateType.AT_COURIER)) {
+            throw new IllegalParcelStateException(parcelId);
+        }
+        DeliveryAttempt deliveryAttempt = new DeliveryAttempt();
+        deliveryAttempt.setParcel(parcel);
+        deliveryAttempt.setCourierId(courierId);
+        deliveryAttempt.setDateTime(dateTimeService.getNow());
+        parcel.getDeliveryAttempts().add(deliveryAttempt);
+    }
+
+    @Override
+    public Collection<DeliveryAttempt> getParcelDeliveryAttempts(long id) {
+        return getById(id).getDeliveryAttempts();
     }
 
     private Address mapAddressRequest(AddressRequest request) {

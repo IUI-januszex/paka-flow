@@ -1,6 +1,7 @@
 package pl.com.januszex.paka.flow.parcel.api.service;
 
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
+import pl.com.januszex.paka.flow.delivery.model.DeliveryAttempt;
 import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
@@ -42,4 +43,8 @@ public interface ParcelServicePort {
     void setParcelFeePaid(long parcelId, boolean paid);
 
     boolean isMoveable(Parcel parcel);
+
+    void addDeliveryAttempt(long parcelId, String courierId);
+
+    Collection<DeliveryAttempt> getParcelDeliveryAttempts(long id);
 }
