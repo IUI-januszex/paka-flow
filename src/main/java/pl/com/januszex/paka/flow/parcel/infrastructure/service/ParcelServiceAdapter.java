@@ -119,6 +119,11 @@ class ParcelServiceAdapter implements ParcelServicePort {
     }
 
     @Override
+    public Collection<Parcel> getParcelSendByUser(String userId) {
+        return parcelRepository.findSentParcel(userId);
+    }
+
+    @Override
     @Transactional
     public void pickupParcel(long parcelId, String courierId) {
         ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()

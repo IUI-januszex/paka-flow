@@ -10,6 +10,8 @@ public interface ParcelJpaRepository extends JpaRepository<Parcel, Long> {
 
     Collection<Parcel> findAllByObserverIdsContains(String userId);
 
+    Collection<Parcel> findAllBySendingUserId(String sendingUserId);
+
     @Query(value = "SELECT * FROM PARCEL p WHERE p.ID IN " +
             "(SELECT ps.PARCEL_ID FROM PARCEL_STATE ps " +
             "WHERE ps.CURRENT AND ps.COURIER_ID = ?1)",

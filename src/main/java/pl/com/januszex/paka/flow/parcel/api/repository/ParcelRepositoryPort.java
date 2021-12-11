@@ -12,6 +12,8 @@ public interface ParcelRepositoryPort extends BaseRepositoryPort<Parcel> {
 
     Collection<Parcel> findParcelOfCourier(String courierId);
 
+    Collection<Parcel> findSentParcel(String sendingUserId);
+
     Collection<Parcel> findObservedParcel(String userId);
 
 }

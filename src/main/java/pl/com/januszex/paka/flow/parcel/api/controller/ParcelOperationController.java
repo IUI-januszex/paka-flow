@@ -75,7 +75,7 @@ public class ParcelOperationController {
     }
 
 
-    @PostMapping(path = "deliver-to-client")
+    @PostMapping(path = "delivery-attempt")
     @PreAuthorize("hasRole('Courier')")
     public ResponseEntity<Object> addDeliveryAttempt(@PathVariable("id") long id,
                                                      CurrentUser currentUser) {

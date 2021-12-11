@@ -28,6 +28,8 @@ public interface ParcelServicePort {
 
     Collection<Parcel> getObservedParcelByUser(String userId);
 
+    Collection<Parcel> getParcelSendByUser(String userId);
+
     void pickupParcel(long parcelId, String courierId);
 
     void deliverParcelAtWarehouse(long parcelId, DeliverToWarehouseRequest deliverToWarehouseRequest);
