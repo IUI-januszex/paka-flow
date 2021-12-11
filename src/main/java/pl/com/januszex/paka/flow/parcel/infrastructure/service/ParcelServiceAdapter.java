@@ -211,7 +211,7 @@ class ParcelServiceAdapter implements ParcelServicePort {
     @Transactional
     public void addDeliveryAttempt(long parcelId, String courierId) {
         Parcel parcel = getById(parcelId);
-        if(!parcelStateService.getCurrentParcelState(parcelId).getType().equals(ParcelStateType.AT_COURIER)) {
+        if (!parcelStateService.getCurrentParcelState(parcelId).getType().equals(ParcelStateType.AT_COURIER)) {
             throw new IllegalParcelStateException(parcelId);
         }
         DeliveryAttempt deliveryAttempt = new DeliveryAttempt();

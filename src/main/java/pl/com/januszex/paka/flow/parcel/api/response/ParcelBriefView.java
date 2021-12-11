@@ -5,7 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -13,13 +13,13 @@ public class ParcelBriefView {
     long id;
     String senderInfo;
     String receiverInfo;
-    LocalDateTime estimatedDeliveryTime;
+    LocalDate estimatedDeliveryTime;
     BigDecimal parcelFee;
     BigDecimal parcelPrice;
     @JsonProperty("isFeePaid")
     boolean feePaid;
     @JsonProperty("isParcelPaid")
-    boolean isParcelPaid;
+    boolean parcelPaid;
     @JsonProperty("isMoveable")
     boolean moveable;
 }

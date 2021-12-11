@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.parcel.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.com.januszex.paka.flow.parcel.api.response.ParcelBriefView;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelDetailView;
 import pl.com.januszex.paka.flow.parcel.domain.*;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
@@ -21,6 +22,20 @@ public class ParcelViewCreator {
     private final ParcelStateServicePort parcelStateService;
     private final ParcelServicePort parcelService;
     private final CurrentUserServicePort currentUserService;
+
+    public ParcelBriefView map(Parcel parcel) {
+        return ParcelBriefView.builder()
+                .id(parcel.getId())
+                .senderInfo(parcel.getSenderDetails())
+                .receiverInfo(parcel.getReceiverDetails())
+                .estimatedDeliveryTime(parcel.getExpectedCourierArrivalDate())
+                .parcelFee(parcel.getParcelFee())
+                .parcelPrice(parcel.getParcelPrice())
+                .feePaid(parcel.isFeePaid())
+                .parcelPaid(parcel.isPaid())
+                .moveable(parcelService.isMoveable(parcel))
+                .build();
+    }
 
     public ParcelDetailView mapWithDetails(Parcel parcel) {
         ParcelState currentState = parcelStateService.getCurrentParcelState(parcel.getId());
