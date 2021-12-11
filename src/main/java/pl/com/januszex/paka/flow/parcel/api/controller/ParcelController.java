@@ -6,7 +6,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.com.januszex.paka.flow.delivery.api.DeliveryAttemptResponse;
-import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelRequest;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelBriefView;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelDetailView;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
@@ -31,7 +31,7 @@ public class ParcelController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ClientInd', 'ClientBiz')")
-    public ResponseEntity<Object> registerParcel(@RequestBody @Valid RegisterParcelRequest request,
+    public ResponseEntity<Object> registerParcel(@RequestBody @Valid ParcelRequest request,
                                                  CurrentUser currentUser) {
         Parcel parcel = parcelService.registerParcel(currentUser.getPrincipal(), request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -39,7 +39,14 @@ public class ParcelController {
         return ResponseEntity.created(location).build();
     }
 
-    @GetMapping(path = "/{id}/")
+    @DeleteMapping(path = "/{id}")
+    @PreAuthorize("hasAnyRole('ClientInd', 'ClientBiz')")
+    public ResponseEntity<Void> deleteParcel(@PathVariable("id") long id) {
+        parcelService.deleteParcel(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping(path = "/{id}")
     public ResponseEntity<ParcelBriefView> getById(@PathVariable("id") long id) {
         return ResponseEntity.ok(parcelViewCreator.map(parcelService.getById(id)));
     }

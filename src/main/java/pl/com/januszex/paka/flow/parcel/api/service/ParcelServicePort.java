@@ -4,7 +4,7 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.delivery.model.DeliveryAttempt;
 import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
-import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelRequest;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
@@ -14,7 +14,9 @@ public interface ParcelServicePort {
 
     Parcel getById(long id);
 
-    Parcel registerParcel(String senderId, RegisterParcelRequest request);
+    Parcel registerParcel(String senderId, ParcelRequest request);
+
+    void deleteParcel(long id);
 
     AddressDto getSourceAddress(long parcelId);
 

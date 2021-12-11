@@ -15,7 +15,7 @@ import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
-import pl.com.januszex.paka.flow.parcel.api.request.RegisterParcelRequest;
+import pl.com.januszex.paka.flow.parcel.api.request.ParcelRequest;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelCourierArrivalServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelServicePort;
 import pl.com.januszex.paka.flow.parcel.api.service.ParcelTypeServicePort;
@@ -25,7 +25,9 @@ import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
+import pl.com.januszex.paka.security.AuthorizationException;
 import pl.com.januszex.paka.users.api.dao.UserDao;
+import pl.com.januszex.paka.users.api.service.CurrentUserServicePort;
 import pl.com.januszex.paka.users.domain.UserDto;
 import pl.com.januszex.paka.warehouse.api.dao.WarehouseDao;
 import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
@@ -48,6 +50,7 @@ class ParcelServiceAdapter implements ParcelServicePort {
     private final UserDao userDao;
     private final ParcelCourierArrivalServicePort parcelCourierArrivalService;
     private final DateTimeServicePort dateTimeService;
+    private final CurrentUserServicePort currentUserService;
 
     @Override
     public Parcel getById(long id) {
@@ -56,7 +59,7 @@ class ParcelServiceAdapter implements ParcelServicePort {
 
     @Override
     @Transactional
-    public Parcel registerParcel(String senderId, RegisterParcelRequest request) {
+    public Parcel registerParcel(String senderId, ParcelRequest request) {
         if (Objects.nonNull(request.getPrice()) && request.getPrice().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Price cannot be negative");
         }
@@ -84,6 +87,14 @@ class ParcelServiceAdapter implements ParcelServicePort {
         parcel = parcelRepository.add(parcel);
         parcelStateService.doPostChangeOperations(parcel.getStates().iterator().next());
         return parcel;
+    }
+
+    @Override
+    @Transactional
+    public void deleteParcel(long id) {
+        Parcel parcel = getById(id);
+        verifyIfCurrentStateIsAtSenderAndCurrentUserIsSender(id, parcel);
+        parcelRepository.delete(parcel);
     }
 
     @Override
@@ -269,6 +280,16 @@ class ParcelServiceAdapter implements ParcelServicePort {
                         .getSourceWarehouseId(),
                 parcel));
         return parcelStates;
+    }
+
+
+    private void verifyIfCurrentStateIsAtSenderAndCurrentUserIsSender(long id, Parcel parcel) {
+        if (!parcelStateService.getCurrentParcelState(id).getType().equals(ParcelStateType.AT_SENDER)) {
+            throw new IllegalParcelStateException(id);
+        }
+        if (!currentUserService.hasId(parcel.getSendingUserId())) {
+            throw new AuthorizationException("Cannot delete parcel sent by anotherUser");
+        }
     }
 
 }

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 
 
 @Data
-public class RegisterParcelRequest {
+public class ParcelRequest {
 
     @NotNull(message = "Provide sender address")
     @Valid
