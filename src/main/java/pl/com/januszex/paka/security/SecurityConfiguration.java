@@ -62,16 +62,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/swagger-ui.html",
+                        "/parcel/*",
+                        "/parcel/*/states",
+                        "/parcel/*/delivery-attempt",
+                        "/parcel/*/move-date",
+                        "/parcel-type/active",
                         "/h2-console/**",
-                        "/news/get/**",
-                        "/user/login",
-                        "/user/logout",
-                        "/user/register/**",
                         "GET", "POST", "PUT", "PATCH")
                 .permitAll()
-                .antMatchers("/**")
-                .permitAll()
-                //.fullyAuthenticated()
+                .anyRequest()
+                //.permitAll()
+                .fullyAuthenticated()
                 .and()
                 .addFilter(filter);
     }
