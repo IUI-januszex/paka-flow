@@ -30,7 +30,7 @@ class WarehouseRestDao implements WarehouseDao {
     @Override
     public WarehouseDto getLocalById(long id) {
         URI uri = UriComponentsBuilder.fromUri(URI.create(restServiceUrls.getPakaWarehouseApiUrl()))
-                .fragment("/LocalWarehouse")
+                .fragment("/warehouse/local")
                 .fragment("{id}")
                 .build(id);
         return restTemplate.getForObject(uri, WarehouseDto.class);
@@ -39,7 +39,7 @@ class WarehouseRestDao implements WarehouseDao {
     @Override
     public WarehouseDto getGlobalLocalById(long id) {
         URI uri = UriComponentsBuilder.fromUri(URI.create(restServiceUrls.getPakaWarehouseApiUrl()))
-                .fragment("/GlobalWarehouse")
+                .fragment("/warehouse/global")
                 .fragment("{id}")
                 .build(id);
         return restTemplate.getForObject(uri, WarehouseDto.class);
@@ -48,7 +48,7 @@ class WarehouseRestDao implements WarehouseDao {
     @Override
     public WarehouseTrackDto getTrack(WarehouseTrackRequestDto requestDto) {
         URI uri = UriComponentsBuilder.fromUri(URI.create(restServiceUrls.getPakaWarehouseApiUrl()))
-                .fragment("/getTrack")
+                .fragment("/parcel-track")
                 .build()
                 .toUri();
         return restTemplate.postForObject(uri, requestDto, WarehouseTrackDto.class);

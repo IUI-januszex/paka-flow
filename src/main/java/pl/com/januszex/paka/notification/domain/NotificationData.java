@@ -62,12 +62,4 @@ public class NotificationData {
                 parcel.getSenderDetails(),
                 parcel.getReceiverDetails());
     }
-
-    public static NotificationData getReturnNotification(Parcel parcel) {
-        return new NotificationData(parcel.getSenderEmailAddress(),
-                parcel.getId(),
-                NotificationType.PARCEL_WILL_RETURN,
-                parcel.getSenderDetails(),
-                parcel.getReceiverDetails());
-    }
 }

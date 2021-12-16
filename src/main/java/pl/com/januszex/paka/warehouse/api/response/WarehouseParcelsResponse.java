@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Value
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WarehouseParcelsResponse {
-    Collection<ParcelDetailView> parcelsAteWarehouse;
+    Collection<ParcelDetailView> parcelsAtWarehouse;
     Collection<ParcelDetailView> parcelsAssigned;
 
     public static WarehouseParcelsResponse of(Collection<ParcelDetailView> parcels) {
