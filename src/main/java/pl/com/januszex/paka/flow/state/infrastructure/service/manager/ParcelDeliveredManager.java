@@ -63,10 +63,10 @@ public class ParcelDeliveredManager implements ParcelStateManager {
 
     private void checkParcelPaid(long parcelId) {
         Parcel parcel = parcelService.getById(parcelId);
-        if (!parcel.isFeePaid()) {
+        if (!parcel.isFeePaid() && parcel.isFeePayable()) {
             throw new ParcelFeeNotPaid(parcelId);
         }
-        if (!parcel.isPaid()) {
+        if (!parcel.isPaid() && parcel.isParcelPayable()) {
             throw new ParcelNotPaid(parcelId);
         }
     }

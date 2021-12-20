@@ -2,6 +2,7 @@ package pl.com.januszex.paka.flow.parcel.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelBriefView;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelDetailView;
 import pl.com.januszex.paka.flow.parcel.domain.*;
@@ -27,7 +28,9 @@ public class ParcelViewCreator {
         return ParcelBriefView.builder()
                 .id(parcel.getId())
                 .senderInfo(parcel.getSenderDetails())
+                .senderAddress(AddressDto.of(parcel.getSenderAddress()))
                 .receiverInfo(parcel.getReceiverDetails())
+                .receiverAddress(AddressDto.of(parcel.getDeliveryAddress()))
                 .estimatedDeliveryTime(parcel.getExpectedCourierArrivalDate())
                 .parcelFee(parcel.getParcelFee())
                 .parcelPrice(parcel.getParcelPrice())
@@ -42,7 +45,9 @@ public class ParcelViewCreator {
         return ParcelDetailView.builder()
                 .id(parcel.getId())
                 .senderInfo(parcel.getSenderDetails())
+                .senderAddress(AddressDto.of(parcel.getSenderAddress()))
                 .receiverInfo(parcel.getReceiverDetails())
+                .receiverAddress(AddressDto.of(parcel.getDeliveryAddress()))
                 .expectedCourierArrivalDate(parcel.getExpectedCourierArrivalDate())
                 .parcelFee(parcel.getParcelFee())
                 .parcelPrice(parcel.getParcelPrice())
@@ -70,6 +75,7 @@ public class ParcelViewCreator {
         }
         if (currentUserService.isCourier() &&
                 nextOperation.getOperationType().equals(OperationType.DELIVER_TO_CLIENT)) {
+            operations.add(new DeliveryAttempt());
             if (!parcel.isFeePaid() && parcel.isFeePayable()) {
                 operations.add(new PayFeeOperation(parcel.getParcelFee()));
             }

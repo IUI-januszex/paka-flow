@@ -49,6 +49,7 @@ class ParcelStateServiceAdapter implements ParcelStateServicePort {
     @Transactional
     public ParcelState changeParcelState(ChangeParcelStateRequest request) {
         ParcelState currentState = getCurrentParcelState(request.getParcelId());
+        currentState.checkNextState(request.getNextState());
         validateChangeStateData(request);
         currentState.setCurrent(false);
         ParcelState newParcelState = parcelStateRepository.add(ParcelStateFactory.newInstance(request,

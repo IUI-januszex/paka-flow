@@ -19,6 +19,7 @@ import pl.com.januszex.paka.security.CurrentUser;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.stream.Collectors;
 
 @RestController
@@ -63,6 +64,7 @@ public class ParcelController {
                 .getStates()
                 .stream()
                 .map(ParcelState::toResponse)
+                .sorted(Comparator.comparing(ParcelStateResponse::getChangeTime).reversed())
                 .collect(Collectors.toList()));
     }
 

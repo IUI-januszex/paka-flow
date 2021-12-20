@@ -9,5 +9,6 @@ public enum OperationType {
     PAY_PARCEL,
     PAY_FEE,
     EDIT,
-    DELETE
+    DELETE,
+    DELIVERY_ATTEMPT
 }

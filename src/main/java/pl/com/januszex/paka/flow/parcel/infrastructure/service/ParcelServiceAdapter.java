@@ -23,6 +23,7 @@ import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.parcel.model.ParcelType;
 import pl.com.januszex.paka.flow.state.api.request.ChangeParcelStateRequest;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
+import pl.com.januszex.paka.flow.state.model.AtWarehouse;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
 import pl.com.januszex.paka.security.AuthorizationException;
@@ -141,6 +142,21 @@ class ParcelServiceAdapter implements ParcelServicePort {
                 .nextState(ParcelStateType.AT_COURIER)
                 .parcelId(parcelId)
                 .courierId(courierId)
+                .build();
+        parcelStateService.changeParcelState(request);
+    }
+
+    @Override
+    @Transactional
+    public void returnToWarehouse(long parcelId, String courierId) {
+        AtWarehouse atWarehouse = (AtWarehouse) parcelStateService.getCurrentParcelState(parcelId)
+                .getPreviousState() //ASSIGNED
+                .getPreviousState(); //AT_WAREHOUSE
+        ChangeParcelStateRequest request = ChangeParcelStateRequest.builder()
+                .nextState(ParcelStateType.AT_WAREHOUSE)
+                .parcelId(parcelId)
+                .warehouseId(atWarehouse.getWarehouseId())
+                .warehouseType(atWarehouse.getWarehouseType())
                 .build();
         parcelStateService.changeParcelState(request);
     }

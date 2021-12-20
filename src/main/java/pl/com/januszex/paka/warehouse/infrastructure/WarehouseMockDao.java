@@ -24,8 +24,8 @@ class WarehouseMockDao implements WarehouseDao {
         return WarehouseDto.builder()
                 .id(id)
                 .city("Mock City")
-                .postalCode("11-111")
-                .number("1")
+                .postalCode(String.format("%s%s-%s%s%s", id, id, id, id, id))
+                .number(Long.toString(id))
                 .street("mock")
                 .build();
     }
@@ -35,8 +35,8 @@ class WarehouseMockDao implements WarehouseDao {
         return WarehouseDto.builder()
                 .id(id)
                 .city("Mock City")
-                .postalCode("11-111")
-                .number("1")
+                .postalCode(String.format("%s%s-%s%s%s", id, id, id, id, id))
+                .number(Long.toString(id))
                 .street("mock")
                 .build();
     }

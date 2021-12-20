@@ -92,7 +92,7 @@ public class Parcel {
     private List<DeliveryAttempt> deliveryAttempts;
 
     public boolean isParcelPayable() {
-        return !paid && parcelPrice != null && !parcelPrice.equals(BigDecimal.ZERO);
+        return !paid && parcelPrice != null && !parcelPrice.equals(new BigDecimal("0.00"));
     }
 
     public boolean isFeePayable() {

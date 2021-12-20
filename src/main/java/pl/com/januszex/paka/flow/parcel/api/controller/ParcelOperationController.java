@@ -37,6 +37,14 @@ public class ParcelOperationController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping(path = "return-to-warehouse")
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Object> returnToWarehouse(@PathVariable("id") long id,
+                                                    CurrentUser currentUser) {
+        parcelService.returnToWarehouse(id, currentUser.getPrincipal());
+        return ResponseEntity.noContent().build();
+    }
+
     @PostMapping(path = "deliver-to-warehouse")
     @PreAuthorize("hasRole('Courier')")
     public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,

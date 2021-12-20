@@ -36,11 +36,11 @@ class ParcelAssignedToCourierManager implements ParcelStateManager {
     private void verifyArrivalDate(ChangeParcelStateRequest request) {
         ParcelState currentSate = parcelStateService.getCurrentParcelState(request.getParcelId());
         Parcel parcel = currentSate.getParcel();
-        if (isArrivalToCourier(currentSate) && isExpectedDateNotToday(parcel)) {
+        if (isArrivalToCourier(currentSate) && isExpectedDateValid(parcel)) {
             throw new DeliveryTooSoonException(request.getParcelId(), request.getCourierId());
         }
 
-        if (isNextAddressDeliveryAddress(currentSate) && isExpectedDateNotToday(parcel)) {
+        if (isNextAddressDeliveryAddress(currentSate) && isExpectedDateValid(parcel)) {
             throw new DeliveryTooSoonException(request.getParcelId(), request.getCourierId());
         }
     }
@@ -79,7 +79,7 @@ class ParcelAssignedToCourierManager implements ParcelStateManager {
         return deliveryAddress.equals(parcelStateService.getDestinationAddress(currentSate));
     }
 
-    private boolean isExpectedDateNotToday(Parcel parcel) {
-        return !dateTimeService.isToday(parcel.getExpectedCourierArrivalDate());
+    private boolean isExpectedDateValid(Parcel parcel) {
+        return !dateTimeService.isBeforeToday(parcel.getExpectedCourierArrivalDate());
     }
 }

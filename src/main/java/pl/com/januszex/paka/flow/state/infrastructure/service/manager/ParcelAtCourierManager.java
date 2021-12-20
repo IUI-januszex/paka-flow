@@ -84,23 +84,24 @@ class ParcelAtCourierManager implements ParcelStateManager {
         assert previousState.getType() == ParcelStateType.AT_WAREHOUSE :
                 "Invalid state at courier before assignment should be at sender or at warehouse, check state machine!";
 
-        AtWarehouse atWarehouse = (AtWarehouse) parcelState;
+        AtWarehouse atWarehouse = (AtWarehouse) previousState;
         if (atWarehouse.getWarehouseType().equals(WarehouseType.LOCAL)) {
             return getAtLocalWarehouseOperation(trackDto, atWarehouse);
         }
 
-        return getAnGlobalWarehouseOperation(trackDto);
+        return getAtGlobalWarehouseOperation(trackDto, atWarehouse);
     }
 
-    private Operation getAnGlobalWarehouseOperation(WarehouseTrackDto trackDto) {
-        if (Objects.nonNull(trackDto.getSecondGlobalWarehouseId())) {
+    private Operation getAtGlobalWarehouseOperation(WarehouseTrackDto trackDto, AtWarehouse currentState) {
+        if (Objects.nonNull(trackDto.getSecondGlobalWarehouseId()) &&
+                !currentState.getId().equals(trackDto.getSecondGlobalWarehouseId())) {
             return new DeliverToWarehouse(trackDto.getSecondGlobalWarehouseId(), WarehouseType.GLOBAL);
         }
         return new DeliverToWarehouse(trackDto.getDestinationWarehouseId(), WarehouseType.LOCAL);
     }
 
     private Operation getAtLocalWarehouseOperation(WarehouseTrackDto trackDto, AtWarehouse atWarehouse) {
-        if (atWarehouse.getId().equals(trackDto.getDestinationWarehouseId())) {
+        if (atWarehouse.getWarehouseId().equals(trackDto.getDestinationWarehouseId())) {
             return new DeliverToClient();
         }
 

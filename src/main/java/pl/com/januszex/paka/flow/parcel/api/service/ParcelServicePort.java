@@ -34,6 +34,8 @@ public interface ParcelServicePort {
 
     void pickupParcel(long parcelId, String courierId);
 
+    void returnToWarehouse(long parcelId, String courierId);
+
     void deliverParcelAtWarehouse(long parcelId, DeliverToWarehouseRequest deliverToWarehouseRequest);
 
     void deliverParcelToClient(long parcelId, String courierId);

@@ -3,6 +3,7 @@ package pl.com.januszex.paka.flow.parcel.api.response;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
+import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ public class ParcelBriefView {
     long id;
     String senderInfo;
     String receiverInfo;
+    AddressDto senderAddress;
+    AddressDto receiverAddress;
     LocalDate estimatedDeliveryTime;
     BigDecimal parcelFee;
     BigDecimal parcelPrice;

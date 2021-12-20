@@ -17,6 +17,8 @@ public class ParcelDetailView {
     long id;
     String senderInfo;
     String receiverInfo;
+    AddressDto senderAddress;
+    AddressDto receiverAddress;
     LocalDate expectedCourierArrivalDate;
     BigDecimal parcelFee;
     BigDecimal parcelPrice;

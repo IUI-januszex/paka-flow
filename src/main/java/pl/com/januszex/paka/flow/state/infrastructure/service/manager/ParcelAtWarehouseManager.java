@@ -26,7 +26,6 @@ import pl.com.januszex.paka.warehouse.domain.WarehouseTrackRequestDto;
 import pl.com.januszex.paka.warehouse.domain.WarehouseType;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @RequiredArgsConstructor
@@ -83,7 +82,7 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
         WarehouseTrackDto track = getWarehouseTrack(parcelState);
         return parcelAtWarehouse.getWarehouseType() == WarehouseType.LOCAL ?
                 getDestinationAddressForLocalWarehouse(parcelState, parcelAtWarehouse, track) :
-                getDestinationForGlobalWarehouse(track);
+                getDestinationForGlobalWarehouse(track, parcelAtWarehouse);
     }
 
     @Override
@@ -96,7 +95,7 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
 
     private boolean isParcelNotDeliverable(ParcelState parcelState) {
         return getDestinationAddress(parcelState).equals(AddressDto.of(parcelState.getParcel().getDeliveryAddress())) &&
-                !dateTimeService.isToday(LocalDateTime.from(parcelState.getParcel().getExpectedCourierArrivalDate()));
+                !dateTimeService.isBeforeToday(parcelState.getParcel().getExpectedCourierArrivalDate());
     }
 
     private WarehouseTrackDto getWarehouseTrack(ParcelState parcelState) {
@@ -106,8 +105,9 @@ class ParcelAtWarehouseManager implements ParcelStateManager {
                 .build());
     }
 
-    private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track) {
-        if (Objects.isNull(track.getSecondGlobalWarehouseId())) {
+    private AddressDto getDestinationForGlobalWarehouse(WarehouseTrackDto track, AtWarehouse currentState) {
+        if (Objects.isNull(track.getSecondGlobalWarehouseId()) ||
+                currentState.getId().equals(track.getSecondGlobalWarehouseId())) {
             return warehouseDao.getLocalById(track.getDestinationWarehouseId())
                     .getAddress();
         }

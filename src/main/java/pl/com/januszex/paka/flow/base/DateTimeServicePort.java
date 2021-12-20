@@ -6,9 +6,9 @@ import java.time.LocalDateTime;
 public interface DateTimeServicePort {
     LocalDateTime getNow();
 
-    boolean isToday(LocalDateTime localDateTime);
+    boolean isBeforeToday(LocalDateTime localDateTime);
 
-    boolean isToday(LocalDate localDateTime);
+    boolean isBeforeToday(LocalDate localDateTime);
 
     LocalDate addWorkdays(int workdays);
 

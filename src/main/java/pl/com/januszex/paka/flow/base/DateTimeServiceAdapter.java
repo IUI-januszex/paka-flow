@@ -18,13 +18,13 @@ class DateTimeServiceAdapter implements DateTimeServicePort {
     }
 
     @Override
-    public boolean isToday(LocalDateTime localDateTime) {
+    public boolean isBeforeToday(LocalDateTime localDateTime) {
         return fmt.format(localDateTime).equals(fmt.format(getNow()));
     }
 
     @Override
-    public boolean isToday(LocalDate localDate) {
-        return localDate.equals(LocalDate.now());
+    public boolean isBeforeToday(LocalDate localDate) {
+        return localDate.equals(LocalDate.now()) || localDate.isBefore(LocalDate.now());
     }
 
     @Override
