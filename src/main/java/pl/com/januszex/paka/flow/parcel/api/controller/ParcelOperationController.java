@@ -22,7 +22,7 @@ public class ParcelOperationController {
 
     @PostMapping(path = "/assign")
     @PreAuthorize("hasRole('Logistician')")
-    public ResponseEntity<Object> assignToCourier(@PathVariable("id") long id,
+    public ResponseEntity<Void> assignToCourier(@PathVariable("id") long id,
                                                   @RequestBody @Valid AssignParcelToCourierRequest request,
                                                   CurrentUser currentUser) {
         parcelService.assignParcelToCourier(id, request.getCourierId(), currentUser.getPrincipal());
@@ -31,7 +31,7 @@ public class ParcelOperationController {
 
     @PostMapping(path = "pick-up")
     @PreAuthorize("hasRole('Courier')")
-    public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,
+    public ResponseEntity<Void> pickUpParcel(@PathVariable("id") long id,
                                                CurrentUser currentUser) {
         parcelService.pickupParcel(id, currentUser.getPrincipal());
         return ResponseEntity.noContent().build();
@@ -39,7 +39,7 @@ public class ParcelOperationController {
 
     @PostMapping(path = "return-to-warehouse")
     @PreAuthorize("hasRole('Courier')")
-    public ResponseEntity<Object> returnToWarehouse(@PathVariable("id") long id,
+    public ResponseEntity<Void> returnToWarehouse(@PathVariable("id") long id,
                                                     CurrentUser currentUser) {
         parcelService.returnToWarehouse(id, currentUser.getPrincipal());
         return ResponseEntity.noContent().build();
@@ -47,7 +47,7 @@ public class ParcelOperationController {
 
     @PostMapping(path = "deliver-to-warehouse")
     @PreAuthorize("hasRole('Courier')")
-    public ResponseEntity<Object> pickUpParcel(@PathVariable("id") long id,
+    public ResponseEntity<Void> deliverToWarehouse(@PathVariable("id") long id,
                                                @RequestBody @Valid DeliverToWarehouseRequest request) {
         parcelService.deliverParcelAtWarehouse(id, request);
         return ResponseEntity.noContent().build();
@@ -55,28 +55,31 @@ public class ParcelOperationController {
 
     @PostMapping(path = "deliver-to-client")
     @PreAuthorize("hasRole('Courier')")
-    public ResponseEntity<Object> deliverToClient(@PathVariable("id") long id,
+    public ResponseEntity<Void> deliverToClient(@PathVariable("id") long id,
                                                   CurrentUser currentUser) {
         parcelService.deliverParcelToClient(id, currentUser.getPrincipal());
         return ResponseEntity.noContent().build();
     }
 
     @PostMapping(path = "move-date")
-    public ResponseEntity<Object> moveDate(@PathVariable("id") long id,
+    @PreAuthorize("hasAnyRole('ClientInd', 'ClientBiz')")
+    public ResponseEntity<Void> moveDate(@PathVariable("id") long id,
                                            @RequestBody @Valid MoveCourierArrivalDateRequest request) {
         parcelService.moveCourierArrivalDate(id, request);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "pay")
-    public ResponseEntity<Object> payParcel(@PathVariable("id") long id,
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Void> payParcel(@PathVariable("id") long id,
                                             @RequestBody @Valid ParcelPaidRequest request) {
         parcelService.setParcelPaid(id, request.isPaid());
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "pay-fee")
-    public ResponseEntity<Object> payParcelFee(@PathVariable("id") long id,
+    @PreAuthorize("hasRole('Courier')")
+    public ResponseEntity<Void> payParcelFee(@PathVariable("id") long id,
                                                @RequestBody @Valid ParcelPaidRequest request) {
         parcelService.setParcelFeePaid(id, request.isPaid());
         return ResponseEntity.noContent().build();
@@ -85,7 +88,7 @@ public class ParcelOperationController {
 
     @PostMapping(path = "delivery-attempt")
     @PreAuthorize("hasRole('Courier')")
-    public ResponseEntity<Object> addDeliveryAttempt(@PathVariable("id") long id,
+    public ResponseEntity<Void> addDeliveryAttempt(@PathVariable("id") long id,
                                                      CurrentUser currentUser) {
         parcelService.addDeliveryAttempt(id, currentUser.getPrincipal());
         return ResponseEntity.noContent().build();

@@ -37,7 +37,7 @@ public class ParcelTypeController {
 
     @PutMapping(path = "/{id}")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Object> update(@PathVariable long id, @RequestBody @Valid ParcelTypeRequest request) {
+    public ResponseEntity<Void> update(@PathVariable long id, @RequestBody @Valid ParcelTypeRequest request) {
         parcelTypeService.update(id, request);
         return ResponseEntity.noContent().build();
     }
@@ -65,14 +65,14 @@ public class ParcelTypeController {
 
     @DeleteMapping(path = "/{id}")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Object> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable long id) {
         parcelTypeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping(path = "/{id}/state")
     @PreAuthorize("hasRole('Admin')")
-    public ResponseEntity<Object> changeActiveChange(@PathVariable long id,
+    public ResponseEntity<Void> changeActiveChange(@PathVariable long id,
                                                      @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
         parcelTypeService.changeActiveState(id, request);
         return ResponseEntity.noContent().build();
