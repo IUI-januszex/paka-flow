@@ -32,12 +32,12 @@ public class ParcelController {
 
     @PostMapping
     @PreAuthorize("hasAnyRole('ClientInd', 'ClientBiz')")
-    public ResponseEntity<Object> registerParcel(@RequestBody @Valid ParcelRequest request,
+    public ResponseEntity<ParcelBriefView> registerParcel(@RequestBody @Valid ParcelRequest request,
                                                  CurrentUser currentUser) {
         Parcel parcel = parcelService.registerParcel(currentUser.getPrincipal(), request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcel.getId()).toUri();
-        return ResponseEntity.created(location).build();
+        return ResponseEntity.created(location).body(parcelViewCreator.map(parcel));
     }
 
     @DeleteMapping(path = "/{id}")
