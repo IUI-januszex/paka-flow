@@ -33,7 +33,7 @@ public class ParcelController {
     @PostMapping
     @PreAuthorize("hasAnyRole('ClientInd', 'ClientBiz')")
     public ResponseEntity<ParcelBriefView> registerParcel(@RequestBody @Valid ParcelRequest request,
-                                                 CurrentUser currentUser) {
+                                                          CurrentUser currentUser) {
         Parcel parcel = parcelService.registerParcel(currentUser.getPrincipal(), request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(parcel.getId()).toUri();

@@ -22,7 +22,7 @@ public class CourierController {
     private final ParcelViewCreator parcelViewCreator;
 
     @GetMapping(path = "/parcels")
-    @PreAuthorize("hasAnyRole('Courier', 'Admin')")
+    @PreAuthorize("hasAnyRole('Courier', 'Logistician', 'Admin')")
     public ResponseEntity<CourierParcelsResponse> getCouriersParcels(@PathVariable("id") String id) {
         return ResponseEntity.ok()
                 .body(CourierParcelsResponse.of(parcelService.getCouriersParcels(id).stream()

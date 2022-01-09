@@ -6,5 +6,4 @@ public enum NotificationType {
     COURIER_WILL_ARRIVE,
     COURIER_WILL_ARRIVE_TODAY,
     PARCEL_DELIVERED,
-    PARCEL_WILL_RETURN
 }
