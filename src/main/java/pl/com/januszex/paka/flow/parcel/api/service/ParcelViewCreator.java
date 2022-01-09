@@ -7,6 +7,7 @@ import pl.com.januszex.paka.flow.parcel.api.response.ParcelBriefView;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelDetailView;
 import pl.com.januszex.paka.flow.parcel.domain.*;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
+import pl.com.januszex.paka.flow.state.api.repose.ParcelStateResponse;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
 import pl.com.januszex.paka.flow.state.model.ParcelState;
 import pl.com.januszex.paka.flow.state.model.ParcelStateType;
@@ -37,6 +38,7 @@ public class ParcelViewCreator {
                 .feePaid(parcel.isFeePaid())
                 .parcelPaid(parcel.isPaid())
                 .moveable(parcelService.isMoveable(parcel))
+                .currentSate(parcelStateService.getCurrentParcelState(parcel.getId()).toResponse())
                 .build();
     }
 
