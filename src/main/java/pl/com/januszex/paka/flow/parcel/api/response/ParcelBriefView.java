@@ -26,5 +26,5 @@ public class ParcelBriefView {
     boolean parcelPaid;
     @JsonProperty("isMoveable")
     boolean moveable;
-    ParcelStateResponse currentSate;
+    ParcelStateResponse currentState;
 }

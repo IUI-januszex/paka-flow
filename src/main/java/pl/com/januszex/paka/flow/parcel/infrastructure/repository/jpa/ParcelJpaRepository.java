@@ -8,6 +8,8 @@ import java.util.Collection;
 
 public interface ParcelJpaRepository extends JpaRepository<Parcel, Long> {
 
+    @Query(value = "SELECT * FROM PARCEL p WHERE p.ID IN (SELECT po.PARCEL_ID FROM PARCEL_OBSERVER_IDS po WHERE po.OBSERVER_IDS = ?1)",
+    nativeQuery = true)
     Collection<Parcel> findAllByObserverIdsContains(String userId);
 
     Collection<Parcel> findAllBySendingUserId(String sendingUserId);
