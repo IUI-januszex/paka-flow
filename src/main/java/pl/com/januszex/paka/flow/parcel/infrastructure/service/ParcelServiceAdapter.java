@@ -8,10 +8,7 @@ import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.address.model.Address;
 import pl.com.januszex.paka.flow.base.DateTimeServicePort;
 import pl.com.januszex.paka.flow.delivery.model.DeliveryAttempt;
-import pl.com.januszex.paka.flow.parcel.api.exception.IllegalParcelStateException;
-import pl.com.januszex.paka.flow.parcel.api.exception.InvalidMoveDate;
-import pl.com.januszex.paka.flow.parcel.api.exception.InvalidPinException;
-import pl.com.januszex.paka.flow.parcel.api.exception.ParcelNotFound;
+import pl.com.januszex.paka.flow.parcel.api.exception.*;
 import pl.com.januszex.paka.flow.parcel.api.repository.ParcelRepositoryPort;
 import pl.com.januszex.paka.flow.parcel.api.request.DeliverToWarehouseRequest;
 import pl.com.januszex.paka.flow.parcel.api.request.MoveCourierArrivalDateRequest;
@@ -256,6 +253,23 @@ class ParcelServiceAdapter implements ParcelServicePort {
     @Override
     public Collection<DeliveryAttempt> getParcelDeliveryAttempts(long id) {
         return getById(id).getDeliveryAttempts();
+    }
+
+    @Override
+    public void addParcelToObserved(long parcelId, String userId) {
+        Parcel parcel = getById(parcelId);
+        if (parcel.getObserverIds().contains(userId)) {
+            throw new ParcelAlreadyObserved(parcelId, userId);
+        }
+        parcel.getObserverIds().add(userId);
+        parcelRepository.update(parcel);
+    }
+
+    @Override
+    public void removeParcelFromObserved(long parcelId, String userId) {
+        Parcel parcel = getById(parcelId);
+        parcel.getObserverIds().remove(userId);
+        parcelRepository.update(parcel);
     }
 
     private Address mapAddressRequest(AddressRequest request) {

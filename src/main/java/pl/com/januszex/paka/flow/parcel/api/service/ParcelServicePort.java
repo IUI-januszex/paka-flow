@@ -53,4 +53,8 @@ public interface ParcelServicePort {
     void addDeliveryAttempt(long parcelId, String courierId);
 
     Collection<DeliveryAttempt> getParcelDeliveryAttempts(long id);
+
+    void addParcelToObserved(long parcelId, String userId);
+
+    void removeParcelFromObserved(long parcelId, String userId);
 }

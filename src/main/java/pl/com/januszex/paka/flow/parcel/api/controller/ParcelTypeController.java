@@ -73,7 +73,7 @@ public class ParcelTypeController {
     @PutMapping(path = "/{id}/state")
     @PreAuthorize("hasRole('Admin')")
     public ResponseEntity<Void> changeActiveChange(@PathVariable long id,
-                                                     @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
+                                                   @RequestBody @Valid ParcelTypeChangeActivatedRequest request) {
         parcelTypeService.changeActiveState(id, request);
         return ResponseEntity.noContent().build();
     }
