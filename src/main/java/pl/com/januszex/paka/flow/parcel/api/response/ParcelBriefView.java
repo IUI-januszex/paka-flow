@@ -12,19 +12,20 @@ import java.time.LocalDate;
 @Data
 @Builder
 public class ParcelBriefView {
-    long id;
-    String senderInfo;
-    String receiverInfo;
-    AddressDto senderAddress;
-    AddressDto receiverAddress;
-    LocalDate estimatedDeliveryTime;
-    BigDecimal parcelFee;
-    BigDecimal parcelPrice;
+    private long id;
+    private ParcelTypeResponse type;
+    private String senderInfo;
+    private String receiverInfo;
+    private AddressDto senderAddress;
+    private AddressDto receiverAddress;
+    private LocalDate estimatedDeliveryTime;
+    private BigDecimal parcelFee;
+    private BigDecimal parcelPrice;
     @JsonProperty("isFeePaid")
-    boolean feePaid;
+    private boolean feePaid;
     @JsonProperty("isParcelPaid")
-    boolean parcelPaid;
+    private boolean parcelPaid;
     @JsonProperty("isMoveable")
     boolean moveable;
-    ParcelStateResponse currentState;
+    private ParcelStateResponse currentState;
 }

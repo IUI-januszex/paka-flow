@@ -14,22 +14,23 @@ import java.util.Collection;
 @Data
 @Builder
 public class ParcelDetailView {
-    long id;
-    String senderInfo;
-    String receiverInfo;
-    AddressDto senderAddress;
-    AddressDto receiverAddress;
-    LocalDate expectedCourierArrivalDate;
-    BigDecimal parcelFee;
-    BigDecimal parcelPrice;
+    private long id;
+    private ParcelTypeResponse type;
+    private String senderInfo;
+    private String receiverInfo;
+    private AddressDto senderAddress;
+    private AddressDto receiverAddress;
+    private LocalDate expectedCourierArrivalDate;
+    private BigDecimal parcelFee;
+    private BigDecimal parcelPrice;
     @JsonProperty("isFeePaid")
-    boolean feePaid;
+    private boolean feePaid;
     @JsonProperty("isParcelPaid")
-    boolean isParcelPaid;
+    private boolean isParcelPaid;
     @JsonProperty("isMoveable")
-    boolean moveable;
-    ParcelStateResponse currentSate;
-    AddressDto sourceAddress;
-    AddressDto destinationAddress;
-    Collection<Operation> operations;
+    private boolean moveable;
+    private ParcelStateResponse currentSate;
+    private AddressDto sourceAddress;
+    private AddressDto destinationAddress;
+    private Collection<Operation> operations;
 }
