@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.com.januszex.paka.flow.address.api.response.AddressDto;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelBriefView;
 import pl.com.januszex.paka.flow.parcel.api.response.ParcelDetailView;
+import pl.com.januszex.paka.flow.parcel.api.response.ParcelTypeResponse;
 import pl.com.januszex.paka.flow.parcel.domain.*;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 import pl.com.januszex.paka.flow.state.api.service.ParcelStateServicePort;
@@ -28,6 +29,7 @@ public class ParcelViewCreator {
         ParcelState currentParcelState = parcelStateService.getCurrentParcelState(parcel.getId());
         return ParcelBriefView.builder()
                 .id(parcel.getId())
+                .type(ParcelTypeResponse.of(parcel.getParcelType()))
                 .senderInfo(parcel.getSenderDetails())
                 .senderAddress(AddressDto.of(parcel.getSenderAddress()))
                 .receiverInfo(parcel.getReceiverDetails())
@@ -46,6 +48,7 @@ public class ParcelViewCreator {
         ParcelState currentState = parcelStateService.getCurrentParcelState(parcel.getId());
         return ParcelDetailView.builder()
                 .id(parcel.getId())
+                .type(ParcelTypeResponse.of(parcel.getParcelType()))
                 .senderInfo(parcel.getSenderDetails())
                 .senderAddress(AddressDto.of(parcel.getSenderAddress()))
                 .receiverInfo(parcel.getReceiverDetails())
