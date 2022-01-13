@@ -23,13 +23,13 @@ class CurrentUserServiceAdapter implements CurrentUserServicePort {
     }
 
     @Override
-    public boolean isClient() {
+    public boolean isWorker() {
         String role = getRole();
         return role != null && (role.equals("ROLE_Courier") || role.equals("ROLE_Logistician"));
     }
 
     @Override
-    public boolean isWorker() {
+    public boolean isClient() {
         String role = getRole();
         return role != null && (role.equals("ROLE_ClientInd") || role.equals("ROLE_ClientBiz"));
     }

@@ -62,6 +62,8 @@ class ParcelServiceAdapter implements ParcelServicePort {
             throw new IllegalArgumentException("Price cannot be negative");
         }
 
+        checkAddressAvailability(request);
+
         Parcel parcel = new Parcel();
         ParcelType parcelType = parcelTypeService.getById(request.getParcelType());
 
@@ -320,6 +322,13 @@ class ParcelServiceAdapter implements ParcelServicePort {
         if (!currentUserService.hasId(parcel.getSendingUserId())) {
             throw new AuthorizationException("Cannot delete parcel sent by anotherUser");
         }
+    }
+
+    private void checkAddressAvailability(ParcelRequest request) {
+        warehouseDao.getTrack(WarehouseTrackRequestDto.builder()
+                .sourcePostalCode(request.getSenderAddress().getPostalCode())
+                .destinationPostalCode(request.getDeliveryAddress().getPostalCode())
+                .build());
     }
 
 }
