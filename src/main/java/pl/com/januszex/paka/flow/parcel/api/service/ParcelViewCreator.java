@@ -68,7 +68,6 @@ public class ParcelViewCreator {
     private Collection<Operation> getOperations(Parcel parcel, ParcelState currentState) {
         List<Operation> operations = new ArrayList<>();
         Operation nextOperation = parcelStateService.getNextOperation(currentState);
-        operations.add(nextOperation);
         if (!nextOperation.getOperationType().equals(OperationType.NO_OPERATION) &&
                 currentUserService.isWorker()) {
             operations.add(nextOperation);
