@@ -10,5 +10,6 @@ public enum OperationType {
     PAY_FEE,
     EDIT,
     DELETE,
-    DELIVERY_ATTEMPT
+    DELIVERY_ATTEMPT,
+    RETURN_TO_WAREHOUSE
 }

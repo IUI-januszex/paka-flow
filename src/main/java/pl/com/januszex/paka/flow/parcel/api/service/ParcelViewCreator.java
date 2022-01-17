@@ -80,6 +80,7 @@ public class ParcelViewCreator {
         if (currentUserService.isCourier() &&
                 nextOperation.getOperationType().equals(OperationType.DELIVER_TO_CLIENT)) {
             operations.add(new DeliveryAttempt());
+            operations.add(new ReturnToWarehouse());
             if (!parcel.isFeePaid() && parcel.isFeePayable()) {
                 operations.add(new PayFeeOperation(parcel.getParcelFee()));
             }
