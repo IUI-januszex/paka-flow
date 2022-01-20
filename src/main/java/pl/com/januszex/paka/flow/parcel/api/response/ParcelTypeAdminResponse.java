@@ -31,7 +31,9 @@ public class ParcelTypeAdminResponse extends ParcelTypeResponse {
                 .description(parcelType.getDescription())
                 .price(parcelType.getPrice())
                 .active(parcelType.isActive())
-                .parcelCount(parcelType.getParcels().size())
+                .parcelCount(parcelType.getParcels() != null ?
+                        parcelType.getParcels().size() :
+                        0)
                 .build();
     }
 }

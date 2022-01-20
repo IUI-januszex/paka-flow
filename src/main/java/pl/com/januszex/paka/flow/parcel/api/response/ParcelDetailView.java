@@ -26,7 +26,7 @@ public class ParcelDetailView {
     @JsonProperty("isFeePaid")
     private boolean feePaid;
     @JsonProperty("isParcelPaid")
-    private boolean isParcelPaid;
+    private boolean parcelPaid;
     @JsonProperty("isMoveable")
     private boolean moveable;
     private ParcelStateResponse currentSate;
