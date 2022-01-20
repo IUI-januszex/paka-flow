@@ -61,6 +61,8 @@ public class ParcelViewCreator {
                 .destinationAddress(parcelStateService.getDestinationAddress(currentState))
                 .operations(getOperations(parcel, currentState))
                 .moveable(parcelService.isMoveable(parcel))
+                .feePaid(parcel.isFeePaid())
+                .parcelPaid(parcel.isPaid())
                 .build();
 
     }
