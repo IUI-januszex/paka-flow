@@ -233,9 +233,11 @@ class ParcelServiceAdapter implements ParcelServicePort {
         }
         AddressDto deliveryAddress = AddressDto.of(parcel.getDeliveryAddress());
         ParcelState currentState = parcelStateService.getCurrentParcelState(parcel.getId());
-        return !((currentState.getType().equals(ParcelStateType.AT_COURIER) ||
-                currentState.getType().equals(ParcelStateType.ASSIGNED_TO_COURIER)) &&
-                deliveryAddress.equals(parcelStateService.getDestinationAddress(currentState)));
+        return !currentState.getType().equals(ParcelStateType.DELIVERED) &&
+                !(deliveryAddress.equals(getDestinationAddress(parcel.getId())) &&
+                        (currentState.getType().equals(ParcelStateType.ASSIGNED_TO_COURIER) ||
+                                currentState.getType().equals(ParcelStateType.AT_COURIER))
+                );
     }
 
     @Override
