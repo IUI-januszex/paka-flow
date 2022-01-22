@@ -74,7 +74,7 @@ class ParcelServiceAdapter implements ParcelServicePort {
         parcel.setParcelType(parcelType);
         parcel.setParcelFee(parcelType.getPrice());
         parcel.setParcelPrice(request.getPrice());
-        parcel.setPaid(Objects.nonNull(request.getPrice()) && !request.getPrice().equals(BigDecimal.ZERO));
+        parcel.setPaid(Objects.isNull(request.getPrice()) || request.getPrice().equals(BigDecimal.ZERO));
         parcel.setReceiverDetails(request.getReceiverDetails());
         parcel.setReceiverPhoneNumber(request.getReceiverPhoneNumber());
         parcel.setReceiverEmailAddress(request.getReceiverEmailAddress());

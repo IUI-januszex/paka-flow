@@ -1,5 +1,6 @@
 package pl.com.januszex.paka.notification.infrastructure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,6 +17,7 @@ import pl.com.januszex.paka.notification.domain.NotificationData;
 class NotificationServiceAdapter implements NotificationServicePort {
 
     private final RabbitTemplate rabbitTemplate;
+    private final ObjectMapper objectMapper;
 
     @Value("${services.notificationQueue}")
     private String queueName;
@@ -23,7 +25,8 @@ class NotificationServiceAdapter implements NotificationServicePort {
     @Override
     public void sendNotification(NotificationData notificationData) {
         try {
-            rabbitTemplate.convertAndSend(queueName, notificationData);
+            String body = objectMapper.writeValueAsString(notificationData);
+            rabbitTemplate.convertAndSend(queueName, body);
         } catch (Exception e) {
             log.error("Sending notification", e);
         }

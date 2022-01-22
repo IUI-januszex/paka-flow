@@ -68,7 +68,7 @@ public class ParcelController {
                 .collect(Collectors.toList()));
     }
 
-    @GetMapping(path = "/{id}/delivery-attempts")
+    @GetMapping(path = "/{id}/delivery-attempt")
     public ResponseEntity<Collection<DeliveryAttemptResponse>> getDeliveryAttempts(@PathVariable("id") long id) {
         return ResponseEntity.ok(
                 parcelService.getParcelDeliveryAttempts(id).stream().map(DeliveryAttemptResponse::of).collect(Collectors.toList())

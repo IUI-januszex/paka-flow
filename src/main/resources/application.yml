@@ -2,13 +2,13 @@ spring:
   rabbitmq:
     host: localhost
     port: 5672
-    username: paka
-    password: paka
+    username: guest
+    password: guest
   jpa:
     defer-datasource-initialization: true
 
   profiles:
-    active: dev
+    active: prod
 server:
   address: localhost
   port: 8081
@@ -19,8 +19,8 @@ services:
     jwtSecret: 'rRYaQlIsv4TiaBuqVlCurRYaQlIsv4TiaBuqVlCu'
     audience: 'Test'
     issuer: 'Test'
-  notificationQueue: notifications
+  notificationQueue: januszex
   rest:
     urls:
-      pakaWarehouseApiUrl: 'http://localhost:8082/api'
+      pakaWarehouseApiUrl: 'http://localhost:8083/api'
       pakaUsersApiUrl: 'http://localhost:5000/api'

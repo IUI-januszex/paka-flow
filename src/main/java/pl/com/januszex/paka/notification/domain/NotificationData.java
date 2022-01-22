@@ -4,9 +4,11 @@ import lombok.Getter;
 import lombok.ToString;
 import pl.com.januszex.paka.flow.parcel.model.Parcel;
 
+import java.io.Serializable;
+
 @Getter
 @ToString
-public class NotificationData {
+public class NotificationData implements Serializable {
 
     private final String emailAddress;
 
@@ -40,7 +42,7 @@ public class NotificationData {
     }
 
     public static NotificationData getDeliveredNotificationForSender(Parcel parcel) {
-        return new NotificationData(parcel.getSenderDetails(),
+        return new NotificationData(parcel.getSenderEmailAddress(),
                 parcel.getId(),
                 NotificationType.PARCEL_DELIVERED,
                 parcel.getSenderDetails(),
@@ -48,7 +50,7 @@ public class NotificationData {
     }
 
     public static NotificationData getCourierWillArriveTodayNotification(Parcel parcel) {
-        return new NotificationData(parcel.getSenderDetails(),
+        return new NotificationData(parcel.getReceiverEmailAddress(),
                 parcel.getId(),
                 NotificationType.COURIER_WILL_ARRIVE_TODAY,
                 parcel.getSenderDetails(),
